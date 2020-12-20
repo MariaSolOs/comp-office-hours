@@ -10,9 +10,11 @@
   "author": "Maria Solano",
   "license": "ISC",
   "dependencies": {
+    "apollo-datasource-mongodb": "^0.2.8",
     "apollo-server": "^2.19.0",
     "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
+    "mongodb": "^3.6.3",
     "mongoose": "^5.11.8"
   },
   "devDependencies": {

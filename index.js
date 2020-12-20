@@ -1,12 +1,25 @@
 require('dotenv').config({ path: './.env' });
 
-const { ApolloServer } = require('apollo-server');
-const typeDefs = require('./schema');
+// MongoDB 
+const mongoClient = require('./config/mongoDB');
 
-// Mongoose connection
-require('./config/mongoose');
+// Database seeding
+// const seedDB = require('./seeds');
+// seedDB();
 
-const server = new ApolloServer({ typeDefs });
+// Apollo Server
+const { ApolloServer } = require('apollo-server'),
+       typeDefs = require('./schema'),
+       resolvers = require('./resolvers'),
+       Instructors = require('./datasources/instructors');
+
+const server = new ApolloServer({ 
+    typeDefs,
+    resolvers,
+    dataSources: () => ({
+        instructors: new Instructors(mongoClient.db().collection('instructors'))
+    })
+});
 
 server.listen().then(() => {
     console.log('Server running on port 4000');
