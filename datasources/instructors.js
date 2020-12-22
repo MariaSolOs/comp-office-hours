@@ -1,7 +1,7 @@
 const { MongoDataSource } = require('apollo-datasource-mongodb');
 
 module.exports = class Instructors extends MongoDataSource {
-    async getInstructors () {
+    async getAllInstructors () {
         return this.collection.find({})
                .toArray()
                .then(items => items);

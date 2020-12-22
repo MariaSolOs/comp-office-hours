@@ -17,7 +17,7 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => ({
-        instructors: new Instructors(mongoClient.db().collection('instructors'))
+        instructorAPI: new Instructors(mongoClient.db().collection('instructors'))
     })
 });
 

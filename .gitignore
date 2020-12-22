@@ -1,6 +1,7 @@
 node_modules/
 .DS_Store/
 .env
+/seeds.js
 
 /client/.pnp
 /client.pnp.js
