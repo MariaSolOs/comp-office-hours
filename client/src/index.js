@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
@@ -16,9 +18,11 @@ const client = new ApolloClient({
 ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </MuiPickersUtilsProvider>
         </ApolloProvider>
     </React.StrictMode>,
     document.getElementById('root')

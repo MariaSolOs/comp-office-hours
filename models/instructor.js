@@ -21,13 +21,21 @@ const InstructorSchema = new mongoose.Schema({
         validate: input => {
             const weekdays = ['Monday', 'Tuesday', 'Wednesday', 
                               'Thursday', 'Friday'];
-            const slotReg = /\b(0[0-9]|1[1-9]|2[0-3])(:00|:20|:40)-(0[0-9]|1[1-9]|2[0-3])(:00|:20|:40)/;
+            const slotReg = /\b(0[1-9]|1[0-9]|2[0-3])(:00|:20|:40)-(0[1-9]|1[0-9]|2[0-3])(:00|:20|:40)/;
             const correctKeys = Array.from(input.keys())
                                 .every(key => weekdays.includes(key));
-            const correctSlots = Array.from(input.values())
-                                .every(val => slotReg.test(val));
-            return correctKeys && correctSlots;
+            const correctValues = Array.from(input.values())
+                                 .every(val => slotReg.test(val));
+            return correctKeys && correctValues;
         }
+    },
+    languages: {
+        type: [String]
+    },
+    role: {
+        type: String,
+        enum: ['Instructor', 'TA', 'TEAM mentor'],
+        required: true
     }
 });
  

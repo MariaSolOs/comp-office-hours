@@ -9,14 +9,18 @@ const AppointmentSchema = new mongoose.Schema({
     student: {
         type: mongoose.Schema.Types.ObjectID,
         ref: 'Student',
-        required: true
     },
-    startTime: {
+    date: {
         type: Date,
         required: true
     },
-    endTime: {
-        type: Date,
+    timeslot: {
+        type: String,
+        required: true,
+        match: /\b(0[0-9]|1[0-9]|2[0-3])(:00|:20|:40)-(0[0-9]|1[0-9]|2[0-3])(:00|:20|:40)/
+    },
+    isBooked: {
+        type: Boolean,
         required: true
     }
 });

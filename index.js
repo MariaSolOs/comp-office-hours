@@ -11,13 +11,15 @@ const mongoClient = require('./config/mongoDB');
 const { ApolloServer } = require('apollo-server'),
        typeDefs = require('./schema'),
        resolvers = require('./resolvers'),
-       Instructors = require('./datasources/instructors');
+       Instructors = require('./datasources/instructors'),
+       Appointments = require('./datasources/appointments');
 
 const server = new ApolloServer({ 
     typeDefs,
     resolvers,
     dataSources: () => ({
-        instructorAPI: new Instructors(mongoClient.db().collection('instructors'))
+        instructorAPI: new Instructors(mongoClient.db().collection('instructors')),
+        appointmentAPI: new Appointments(mongoClient.db().collection('appointments'))
     })
 });
 

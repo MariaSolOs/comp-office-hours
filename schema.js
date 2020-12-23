@@ -3,7 +3,7 @@ const { gql } = require('apollo-server');
 module.exports = gql`
     type Query {
         instructors: [Instructor]!
-        appointments(instId: ID!): [Appointment]
+        appointments(instId: ID!, date: String!): [Appointment]
     }
 
     type Mutation {
@@ -21,13 +21,15 @@ module.exports = gql`
         name: String!
         zoomLink: String!
         photo: String 
+        role: String!
+        languages: [String]
     }
 
     type Appointment {
         instructor: Instructor!
         student: Student 
-        startTime: String!
-        endTime: String!
+        date: String!
+        timeslot: String!
     }
 `;
 

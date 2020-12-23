@@ -15,4 +15,6 @@ const App = (props) => {
     );
 }
 
+// TODO: Add proptypes to all components
+
 export default App;

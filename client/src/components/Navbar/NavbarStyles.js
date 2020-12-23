@@ -2,9 +2,7 @@ const styles = (theme) => ({
     bar: {
         width: '100vw',
         height: '8vh',
-        backgroundColor: 'rgb(142, 158, 191, 0.7)',
-        position: 'fixed',
-        top: 0, right: 0, left: 0,
+        backgroundColor: 'rgba(143, 181, 153, 0.7)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
