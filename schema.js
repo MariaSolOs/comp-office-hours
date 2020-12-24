@@ -7,25 +7,27 @@ module.exports = gql`
     }
 
     type Mutation {
-        addAppointment(instId: ID!): Boolean! 
+        bookAppointment(instId: ID!): Appointment! 
     }
 
     type Student {
-        _id: ID!
+        id: ID!
         email: String!
         mcgillId: String!
     }
 
     type Instructor {
-        _id: ID!
+        id: ID!
         name: String!
         zoomLink: String!
         photo: String 
         role: String!
         languages: [String]
+        availDays: [String]
     }
 
     type Appointment {
+        id: ID!
         instructor: Instructor!
         student: Student 
         date: String!

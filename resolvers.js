@@ -1,7 +1,8 @@
 module.exports = {
     Query: {
-        instructors: (_, __, { dataSources }) => {
-            return dataSources.instructorAPI.getAllInstructors();
+        instructors: async (_, __, { dataSources }) => {
+            const insts = await dataSources.instructorAPI.getAllInstructors();
+            return insts;
         },
 
         appointments: async (_, { instId, date }, { dataSources }) => {

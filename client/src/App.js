@@ -2,14 +2,14 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom'; 
 
 import Navbar from './components/Navbar/Navbar';
-import HomePage from './pages/HomePage/HomePage';
+import ApptForm from './pages/ApptForm/ApptForm';
 
 const App = (props) => {
     return (
         <>
             <Navbar/>
             <Switch>
-                <Route path="/" component={HomePage}/>
+                <Route path="/" component={ApptForm}/>
             </Switch>
         </>
     );
