@@ -2,12 +2,13 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
     type Query {
-        instructors: [Instructor]!
-        appointments(instId: ID!, date: String!): [Appointment]
+        instructors: [Instructor!]!
+        appointments(instId: ID!, date: String!): [Appointment!]
     }
 
     type Mutation {
-        bookAppointment(instId: ID!): Appointment! 
+        login(email: String!): AuthData!
+        bookAppointment(bookingId: ID!): Appointment! 
     }
 
     type Student {
@@ -19,12 +20,15 @@ module.exports = gql`
     type Instructor {
         id: ID!
         name: String!
+        email: String!
         zoomLink: String!
         photo: String 
         role: String!
-        languages: [String]
-        availDays: [String]
+        languages: [String!]
+        availDays: [String!]
     }
+
+    union User = Student | Instructor
 
     type Appointment {
         id: ID!
@@ -32,6 +36,11 @@ module.exports = gql`
         student: Student 
         date: String!
         timeslot: String!
+        isBooked: Boolean!
+    }
+
+    type AuthData {
+        token: String!
     }
 `;
 

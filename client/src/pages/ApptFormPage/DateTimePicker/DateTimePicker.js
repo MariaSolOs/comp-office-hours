@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
+import Tooltip from '@material-ui/core/Tooltip';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,16 +14,13 @@ const GET_APPOINTMENTS = gql`
         appointments(instId: $instId, date: $date) {
             id
             timeslot
+            isBooked
         }
     }
 `;
 
 // TODO: Set this back to 2 weeks
 const MAX_DATE = new Date().setDate(new Date().getDate() + 28);
-
-const formatTimeslot = (slot) => {
-
-}
 
 const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
     const classes = useStyles();
@@ -32,16 +30,32 @@ const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
         onSelection(slot);
     }
 
+    if(slots.length === 0) {
+        return (
+            <p className={classes.noSlotsMsg}>
+                No appointments available.
+            </p>
+        );
+    }
+
     return (
         <div className={classes.timeslots}>
-            {slots.map(({ id, timeslot }) => (
-                <button 
-                key={id} 
-                className={`${classes.timeslot} 
-                            ${(selectedSlot === timeslot) && 'selected'}`}
-                onClick={handleClick(timeslot)}>
-                    {timeslot}
-                </button>
+            {slots.map(({ id, timeslot, isBooked }) => (
+                <Tooltip 
+                key={id}
+                title={isBooked? '' : 'Already booked.'}
+                disableFocusListener
+                placement="top"
+                classes={{ tooltip: classes.tooltip }}>
+                    <button 
+                    className={`${classes.timeslot} 
+                                ${(selectedSlot === timeslot) && 'selected'}
+                                ${isBooked && 'booked'}`}
+                    disabled={isBooked}
+                    onClick={handleClick(timeslot)}>
+                        {timeslot}
+                    </button>
+                </Tooltip>
             ))}
         </div>
     );

@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 const StudentSchema = new mongoose.Schema({
-    name: {
-        type: String
+    email: {
+        type: String,
+        required: true,
+        match: /(@mail\.mcgill\.ca|@mcgill.ca)$/
     },
     mcgillId: {
         type: String,

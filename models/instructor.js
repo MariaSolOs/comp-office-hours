@@ -8,6 +8,11 @@ const InstructorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true,
+        match: /(@mail\.mcgill\.ca|@mcgill.ca)$/
+    },
     photo: {
         type: String,
         default: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,q_70,w_100/v1608409362/COMP202-OHBA/no-pic-user.jpg`

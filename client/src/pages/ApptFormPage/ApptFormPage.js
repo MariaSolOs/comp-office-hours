@@ -1,16 +1,16 @@
-import React, { useCallback } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import React, { useState, useCallback } from 'react';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import { actionTypes, useAppointmentReducer } from './store';
 
 import InstructorList from './InstructorList/InstructorList';
 import DateTimePicker from './DateTimePicker/DateTimePicker';
 
 import { makeStyles } from '@material-ui/core/styles';
-import styles from './ApptFormStyles';
+import styles from './ApptFormPageStyles';
 const useStyles = makeStyles(styles);
 
 const GET_INSTRUCTORS = gql`
-    query getInstructors {
+    query GetInstructors {
         instructors {
             id
             name 
@@ -22,12 +22,23 @@ const GET_INSTRUCTORS = gql`
     }
 `;
 
-const HomePage = (props) => {
+const BOOK_APPT = gql`
+    mutation BookAppt($bookingId: ID!) {
+        bookAppointment(bookingId: $bookingId) {
+            student
+            isBooked
+        }
+    }
+`;
+
+const ApptFormPage = () => {
     const classes = useStyles();
+    
+    const { loading: instsLoading, 
+            data: instsData, 
+            error: instsError } = useQuery(GET_INSTRUCTORS);
 
     const [state, dispatch] = useAppointmentReducer();
-
-    const { loading, data, error } = useQuery(GET_INSTRUCTORS);
 
     const handleInstChange = useCallback((inst) => {
         dispatch({
@@ -40,9 +51,9 @@ const HomePage = (props) => {
         dispatch({
             type: actionTypes.ANY_INST_CHANGE,
             useAnyInst: e.target.checked,
-            defaultInst: data.instructors[0]
+            defaultInst: instsData.instructors[0]
         });
-    }, [dispatch, data]);
+    }, [dispatch, instsData]);
 
     const handleDateChange = useCallback((date) => {
         dispatch({
@@ -57,19 +68,35 @@ const HomePage = (props) => {
             timeslot
         });
     }, [dispatch]);
+
+    const [errorMsg, setErrorMsg] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if(state.inst === null && !state.useAnyInst) {
+            setErrorMsg('Please select an instructor.');
+            return;
+        }
+
+        if(state.timeslot === null) {
+            setErrorMsg('Please select a time slot');
+            return;
+        }
+    }
     
     // TODO: Add loading spinner
     return (    
-        <form className={classes.menu}>
-            {loading? 
+        <form className={classes.menu} onSubmit={handleSubmit}>
+            {instsLoading? 
                 'Loading...' :
-                error? 
+                instsError? 
                 <p>We cannot schedule your appointment right now.</p>:
                 <>
                 <div className={classes.section}>
                     <h2>Who would you like to see?</h2>
                     <InstructorList
-                    instructors={data.instructors}
+                    instructors={instsData.instructors}
                     selectedInst={state.inst}
                     onInstChange={handleInstChange}
                     useAnyInst={state.useAnyInst}
@@ -92,9 +119,17 @@ const HomePage = (props) => {
                         timeslot={state.timeslot}
                         onTimeslotChange={handleTimeslotChange}/>
                     </div>}
+                {errorMsg && 
+                    <p className={classes.errorMsg}>{errorMsg}</p>}
+                {state.showCal &&
+                    <button 
+                    type="submit" 
+                    className={classes.submitButton}>
+                        Complete booking
+                    </button>}
                 </>}
         </form>
     );
 }
 
-export default HomePage;
+export default ApptFormPage;

@@ -1,40 +1,17 @@
 const styles = (theme) => ({
-    list: { 
-        display: 'flex',
-        flexWrap: 'wrap'
-    },
-
-    switchBox: {
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-
-        '& .MuiSwitch-colorSecondary.Mui-checked': {
-            color: 'rgba(11, 135, 125, 1)'
-        },
-
-        '& .MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track': {
-            backgroundColor: 'rgba(11, 135, 125, 0.6)'
-        },
-
-        '& .switch-text': {
-            margin: 0,
-            fontSize: '0.95rem'
-        }
-    },
-
     cardRoot: {
         display: 'flex',
         justifyContent: 'space-between',
         padding: 10,
-        margin: 10,
-        width: '28%',
+        margin: '10px 0',
+        boxSizing: 'border-box',
+        width: '32%',
         cursor: 'pointer',
         backgroundColor: props => 
                             props.isSelected? '#ECF2F2' : '#FFF',
 
-        [theme.breakpoints.down('sm')]: { width: '40%' },
-        [theme.breakpoints.down('xs')]: { width: '90%' }
+        [theme.breakpoints.down('sm')]: { width: '48%' },
+        [theme.breakpoints.down('xs')]: { width: '100%' }
     },
 
     instDetails: {

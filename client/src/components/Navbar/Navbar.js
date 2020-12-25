@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './NavbarStyles';
 const useStyles = makeStyles(styles);
 
-const Navbar = (props) => {
+const Navbar = () => {
     const classes = useStyles();
 
     return (
