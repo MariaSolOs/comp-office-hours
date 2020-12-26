@@ -3,24 +3,32 @@ const jwt = require('jsonwebtoken'),
 
 module.exports = {
     User: {
-        __resolveType: (obj, _, __) => {
-            if(obj.zoomLink) {
-                return 'Instructor';
-            }
-            if(obj.mcgillId) {
+        __resolveType: (user, _, __) => {
+            if(user.mcgillId) {
                 return 'Student';
+            }
+            if(user.zoomLink) {
+                return 'Instructor';
             }
             return null;
         }
     },
 
     Query: {
-        instructors: async (_, __, { dataSources }) => {
+        instructors: async (_, __, { dataSources, user }) => {
+            if(!user) {
+                throw new AuthenticationError('Not logged in');
+            }
+
             const insts = await dataSources.instructorAPI.getAllInstructors();
             return insts;
         },
 
-        appointments: async (_, { instId, date }, { dataSources }) => {
+        appointments: async (_, { instId, date }, { dataSources, user }) => {
+            if(!user) {
+                throw new AuthenticationError('Not logged in');
+            }
+
             const appts = await dataSources.appointmentAPI.getAllAppointments();
             return appts.filter(appt => (
                 date === appt.date && instId === `${appt.instructor}`
@@ -30,15 +38,18 @@ module.exports = {
 
     Mutation: {
         login: async (_, { email }, { dataSources }) => {
-            const user = await dataSources.studentAPI.getStudent(email);
-    
+            let user;
+            user = await dataSources.studentAPI.getStudent(email);
+            if(!user) {
+                user = await dataSources.instructorAPI.getInstructor(email);
+            }
             if(!user) {
                 throw new AuthenticationError('Email does not exist.');
             }
     
-            const token = jwt.sign(
+            user.token = jwt.sign(
             { 
-                userId: user.id, 
+                _id: user._id, 
                 email: user.email 
             },
             process.env.JWT_SECRET,
@@ -46,7 +57,11 @@ module.exports = {
                 expiresIn: '1h', 
                 issuer: 'COMP202-OHBA' 
             });
-            return { token };
+            return user;
+        },
+
+        bookAppointment: async (_, { bookingId }, { dataSources, user }) => {
+            console.log(user)
         }
     }
 }

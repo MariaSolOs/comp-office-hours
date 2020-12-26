@@ -27,9 +27,9 @@ const InstructorList = ({ instructors, selectedInst, onInstChange,
             </div>
             {instructors.map(inst => (
                 <InstructorCard 
-                key={inst.id} 
+                key={inst._id} 
                 inst={inst}
-                isSelected={selectedInst && (inst.id === selectedInst.id)}
+                isSelected={selectedInst && (inst._id === selectedInst._id)}
                 onSelected={handleSelection(inst)}/>
             ))}
         </div>

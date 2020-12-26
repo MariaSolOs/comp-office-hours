@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -18,8 +19,10 @@ const LOGIN_USER = gql`
 
 const EMAIL_REGEX = /(@mail\.mcgill\.ca|@mcgill.ca)$/;
 
-const LoginPage = (props) => {
+const LoginPage = () => {
     const classes = useStyles();
+
+    const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -30,6 +33,7 @@ const LoginPage = (props) => {
     const [login, { loading, error }] = useMutation(LOGIN_USER, {
         onCompleted: ({ login }) => {
             localStorage.setItem('token', login.token);
+            history.push('/booking');
         }
     });
 

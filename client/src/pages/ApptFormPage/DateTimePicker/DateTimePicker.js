@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles);
 const GET_APPOINTMENTS = gql`
     query getAppointments($instId: ID!, $date: String!){
         appointments(instId: $instId, date: $date) {
-            id
+            _id
             timeslot
             isBooked
         }
@@ -25,9 +25,9 @@ const MAX_DATE = new Date().setDate(new Date().getDate() + 28);
 const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
     const classes = useStyles();
 
-    const handleClick = (slot) => (e) => {
+    const handleClick = (slot, id) => (e) => {
         e.preventDefault();
-        onSelection(slot);
+        onSelection(slot, id);
     }
 
     if(slots.length === 0) {
@@ -52,7 +52,7 @@ const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
                                 ${(selectedSlot === timeslot) && 'selected'}
                                 ${isBooked && 'booked'}`}
                     disabled={isBooked}
-                    onClick={handleClick(timeslot)}>
+                    onClick={handleClick(timeslot, id)}>
                         {timeslot}
                     </button>
                 </Tooltip>

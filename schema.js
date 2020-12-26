@@ -7,18 +7,25 @@ module.exports = gql`
     }
 
     type Mutation {
-        login(email: String!): AuthData!
+        login(email: String!): User!
         bookAppointment(bookingId: ID!): Appointment! 
     }
 
-    type Student {
-        id: ID!
+    interface User {
+        _id: ID!
         email: String!
-        mcgillId: String!
+        token: String!
     }
 
-    type Instructor {
-        id: ID!
+    type Student implements User {
+        _id: ID!
+        email: String!
+        mcgillId: String!
+        token: String!
+    }
+
+    type Instructor implements User {
+        _id: ID!
         name: String!
         email: String!
         zoomLink: String!
@@ -26,21 +33,16 @@ module.exports = gql`
         role: String!
         languages: [String!]
         availDays: [String!]
+        token: String!
     }
 
-    union User = Student | Instructor
-
     type Appointment {
-        id: ID!
+        _id: ID!
         instructor: Instructor!
         student: Student 
         date: String!
         timeslot: String!
         isBooked: Boolean!
-    }
-
-    type AuthData {
-        token: String!
     }
 `;
 

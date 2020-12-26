@@ -11,18 +11,14 @@ const mongoClient = require('./config/mongoDB');
 const { ApolloServer } = require('apollo-server'),
        typeDefs = require('./schema'),
        resolvers = require('./resolvers'),
-       Instructors = require('./datasources/instructors'),
-       Appointments = require('./datasources/appointments'),
-       Students = require('./datasources/students');
+      { Instructors, Students, Appointments } = require('./datasources');
 
 // User authentication
 const jwt = require('jsonwebtoken');
 const getUser = (token) => {
-    jwt.verify(token, process.env.JWT_SECRET, { issuer: 'COMP202-OHBA' }, 
+    return jwt.verify(token, process.env.JWT_SECRET, { issuer: 'COMP202-OHBA' }, 
     (err, decoded) => {
-        if(err) { 
-            return null;
-        }
+        if(err) { return null; }
         return { ...decoded };
     });
 }
@@ -30,9 +26,9 @@ const getUser = (token) => {
 const server = new ApolloServer({ 
     typeDefs,
     resolvers,
-    context: async ({ req }) => {
-        const token = req.headers && req.headers.authorization || '';
-        const user = await getUser(token);
+    context: ({ req }) => {
+        const token = req.headers && (req.headers.authorization || '');
+        const user = getUser(token);
         return { user };
     },
     dataSources: () => ({

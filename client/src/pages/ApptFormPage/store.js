@@ -5,7 +5,8 @@ const initialState = {
     useAnyInst: false,
     showCal: false,
     date: new Date(),
-    timeslot: null
+    timeslot: null,
+    bookingId: null
 };
 
 export const actionTypes = {
@@ -45,7 +46,8 @@ export function useAppointmentReducer() {
                 return {
                     ...state,
                     showCal: true,
-                    timeslot: action.timeslot
+                    timeslot: action.timeslot,
+                    bookingId: action.bookingId
                 }
             
             default: return state

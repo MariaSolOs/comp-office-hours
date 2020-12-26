@@ -10,7 +10,10 @@ import './index.css';
 
 const client = new ApolloClient({
     uri: process.env.REACT_APP_SERVER_URL,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    headers: {
+        authorization: localStorage.getItem('token') || ''
+    }
 });
 
 ReactDOM.render(

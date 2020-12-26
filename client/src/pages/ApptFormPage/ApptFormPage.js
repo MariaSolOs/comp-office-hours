@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles);
 const GET_INSTRUCTORS = gql`
     query GetInstructors {
         instructors {
-            id
+            _id
             name 
             photo
             role
@@ -37,6 +37,14 @@ const ApptFormPage = () => {
     const { loading: instsLoading, 
             data: instsData, 
             error: instsError } = useQuery(GET_INSTRUCTORS);
+    const [bookAppt,
+          { loading: bookingLoading,
+            error: bookingError }] = useMutation(BOOK_APPT, { 
+                onCompleted: ({ bookAppointment }) => {
+                    console.log(bookAppointment)
+                }
+            }
+        );
 
     const [state, dispatch] = useAppointmentReducer();
 
@@ -62,10 +70,11 @@ const ApptFormPage = () => {
         });
     }, [dispatch]);
 
-    const handleTimeslotChange = useCallback((timeslot) => {
+    const handleTimeslotChange = useCallback((timeslot, bookingId) => {
         dispatch({
             type: actionTypes.TIMESLOT_CHANGE,
-            timeslot
+            timeslot,
+            bookingId
         });
     }, [dispatch]);
 
@@ -83,14 +92,16 @@ const ApptFormPage = () => {
             setErrorMsg('Please select a time slot');
             return;
         }
+
+        bookAppt({ variables: { bookingId: state.bookingId } });
     }
     
     // TODO: Add loading spinner
     return (    
         <form className={classes.menu} onSubmit={handleSubmit}>
-            {instsLoading? 
+            {instsLoading || bookingLoading? 
                 'Loading...' :
-                instsError? 
+                instsError || bookingError? 
                 <p>We cannot schedule your appointment right now.</p>:
                 <>
                 <div className={classes.section}>
