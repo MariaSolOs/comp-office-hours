@@ -23,10 +23,11 @@ const GET_INSTRUCTORS = gql`
 `;
 
 const BOOK_APPT = gql`
-    mutation BookAppt($bookingId: ID!) {
-        bookAppointment(bookingId: $bookingId) {
-            student
-            isBooked
+    mutation BookAppt($apptId: ID!) {
+        bookAppointment(apptId: $apptId) {
+            student {
+                email
+            }
         }
     }
 `;
@@ -41,7 +42,7 @@ const ApptFormPage = () => {
           { loading: bookingLoading,
             error: bookingError }] = useMutation(BOOK_APPT, { 
                 onCompleted: ({ bookAppointment }) => {
-                    console.log(bookAppointment)
+                    console.log(bookAppointment);
                 }
             }
         );
@@ -93,7 +94,7 @@ const ApptFormPage = () => {
             return;
         }
 
-        bookAppt({ variables: { bookingId: state.bookingId } });
+        bookAppt({ variables: { apptId: state.bookingId } });
     }
     
     // TODO: Add loading spinner

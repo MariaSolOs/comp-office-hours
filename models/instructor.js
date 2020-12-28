@@ -39,7 +39,7 @@ const InstructorSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Instructor', 'TA', 'TEAM mentor'],
+        enum: ['INSTRUCTOR', 'TA', 'TEAM_MENTOR'],
         required: true
     }
 });

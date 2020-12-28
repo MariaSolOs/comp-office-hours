@@ -60,8 +60,18 @@ module.exports = {
             return user;
         },
 
-        bookAppointment: async (_, { bookingId }, { dataSources, user }) => {
-            console.log(user)
+        bookAppointment: async (_, { apptId }, { dataSources, user }) => {
+            try {
+                await dataSources.appointmentAPI.bookAppointment(apptId, user._id);
+                const appt = await dataSources.appointmentAPI.getAppointment(apptId);
+                const student = await dataSources.studentAPI.getStudent(user.email);
+                return {
+                    ...appt,
+                    student: { ...student }
+                }
+            } catch(error) {
+                return new Error(`Booking failed: ${error}`);
+            }
         }
     }
 }

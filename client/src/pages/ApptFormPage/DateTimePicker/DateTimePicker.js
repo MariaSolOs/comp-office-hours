@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
-import Tooltip from '@material-ui/core/Tooltip';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import SlotPicker from '../../../components/SlotPicker/SlotPicker';
 
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './DateTimePickerStyles';
@@ -22,45 +22,6 @@ const GET_APPOINTMENTS = gql`
 // TODO: Set this back to 2 weeks
 const MAX_DATE = new Date().setDate(new Date().getDate() + 28);
 
-const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
-    const classes = useStyles();
-
-    const handleClick = (slot, id) => (e) => {
-        e.preventDefault();
-        onSelection(slot, id);
-    }
-
-    if(slots.length === 0) {
-        return (
-            <p className={classes.noSlotsMsg}>
-                No appointments available.
-            </p>
-        );
-    }
-
-    return (
-        <div className={classes.timeslots}>
-            {slots.map(({ id, timeslot, isBooked }) => (
-                <Tooltip 
-                key={id}
-                title={isBooked? '' : 'Already booked.'}
-                disableFocusListener
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}>
-                    <button 
-                    className={`${classes.timeslot} 
-                                ${(selectedSlot === timeslot) && 'selected'}
-                                ${isBooked && 'booked'}`}
-                    disabled={isBooked}
-                    onClick={handleClick(timeslot, id)}>
-                        {timeslot}
-                    </button>
-                </Tooltip>
-            ))}
-        </div>
-    );
-}
-
 const DateTimePicker = ({ date, onDateChange, selectedInst,
                           timeslot, onTimeslotChange }) => {
     const classes = useStyles();
@@ -70,7 +31,7 @@ const DateTimePicker = ({ date, onDateChange, selectedInst,
     const handleDateChange = (date) => {
         getAppts({
             variables: { 
-                instId: selectedInst.id, 
+                instId: selectedInst._id, 
                 date: `${date.getFullYear()}-${
                         ('' + (date.getMonth() + 1)).padStart(2, '0')
                         }-${('' + date.getDate()).padStart(2, '0')}`

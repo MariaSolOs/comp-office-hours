@@ -2,7 +2,8 @@ const styles = (theme) => ({
     menu: {
         margin: '5vh auto',
         width: '85%',
-        minWidth: 300
+        minWidth: 300,
+        overflowY: 'scroll'
     },
 
     section: { 

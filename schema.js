@@ -8,13 +8,26 @@ module.exports = gql`
 
     type Mutation {
         login(email: String!): User!
-        bookAppointment(bookingId: ID!): Appointment! 
+        bookAppointment(apptId: ID!): Appointment! 
     }
 
     interface User {
+        """
+        Representation of any user of the website. 
+        *token* is used for client-side authentication.
+        """
         _id: ID!
         email: String!
         token: String!
+    }
+
+    enum Role {
+        """
+        Possible role of a COMP202 instructor.
+        """
+        INSTRUCTOR
+        TA
+        TEAM_MENTOR
     }
 
     type Student implements User {
@@ -30,7 +43,7 @@ module.exports = gql`
         email: String!
         zoomLink: String!
         photo: String 
-        role: String!
+        role: Role
         languages: [String!]
         availDays: [String!]
         token: String!
