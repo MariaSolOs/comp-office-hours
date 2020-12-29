@@ -26,11 +26,12 @@ const InstructorList = ({ instructors, selectedInst, onInstChange,
                 <p className="switch-text">Anyone is fine.</p>
             </div>
             {instructors.map(inst => (
-                <InstructorCard 
-                key={inst._id} 
-                inst={inst}
-                isSelected={selectedInst && (inst._id === selectedInst._id)}
-                onSelected={handleSelection(inst)}/>
+                <div key={inst._id} className={classes.cardWrapper}>
+                    <InstructorCard 
+                    inst={inst}
+                    isSelected={selectedInst && (inst._id === selectedInst._id)}
+                    onSelected={handleSelection(inst)}/>
+                </div>
             ))}
         </div>
     );

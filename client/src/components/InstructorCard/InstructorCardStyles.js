@@ -3,15 +3,13 @@ const styles = (theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         padding: 10,
-        margin: '10px 0',
         boxSizing: 'border-box',
-        width: '32%',
+        width: '100%',
+        minWidth: 260,
+        height: '100%',
         cursor: 'pointer',
         backgroundColor: props => 
-                            props.isSelected? '#ECF2F2' : '#FFF',
-
-        [theme.breakpoints.down('sm')]: { width: '48%' },
-        [theme.breakpoints.down('xs')]: { width: '100%' }
+                            props.isSelected? '#ECF2F2' : '#FFF'
     },
 
     instDetails: {

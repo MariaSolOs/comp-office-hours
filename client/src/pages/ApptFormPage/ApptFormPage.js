@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { actionTypes, useAppointmentReducer } from './store';
+import { useHistory } from 'react-router-dom';
 
 import InstructorList from './InstructorList/InstructorList';
 import DateTimePicker from './DateTimePicker/DateTimePicker';
@@ -28,12 +29,16 @@ const BOOK_APPT = gql`
             student {
                 email
             }
+            date
+            timeslot
         }
     }
 `;
 
 const ApptFormPage = () => {
     const classes = useStyles();
+
+    const history = useHistory();
     
     const { loading: instsLoading, 
             data: instsData, 
@@ -42,7 +47,15 @@ const ApptFormPage = () => {
           { loading: bookingLoading,
             error: bookingError }] = useMutation(BOOK_APPT, { 
                 onCompleted: ({ bookAppointment }) => {
-                    console.log(bookAppointment);
+                    history.push({ 
+                        pathname: '/booking-confirm',
+                        state: {
+                            instructor: state.inst,
+                            date: bookAppointment.date,
+                            timeslot: bookAppointment.timeslot,
+                            studentEmail: bookAppointment.student.email
+                        }
+                    });
                 }
             }
         );

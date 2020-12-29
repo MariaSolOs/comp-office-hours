@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { initCache } from '../../cache';
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -32,7 +33,7 @@ const LoginPage = () => {
 
     const [login, { loading, error }] = useMutation(LOGIN_USER, {
         onCompleted: ({ login }) => {
-            localStorage.setItem('token', login.token);
+            initCache(login.token);
             history.push('/booking');
         }
     });

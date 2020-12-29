@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { gql, useLazyQuery } from '@apollo/client';
 
-const PrivateRoute = ({ Component, ...rest }) => {
-    const token = localStorage.getItem('token');
+const IS_LOGGED_IN = gql`
+    query IsUserLoggedIn {
+        isLoggedIn @client
+    }
+`;
+
+const ProtectedPage = ({ Component, ...rest }) => {
+    const [checkLogIn, { data }] = useLazyQuery(IS_LOGGED_IN);
+
+    useEffect(() => {
+        checkLogIn();
+    }, [checkLogIn]);
 
     return (
-        <Route { ...rest } 
-        render={(props) => (
-            token !== null? 
-                <Component { ...props }/> : 
-                <Redirect to="/login"/>
-        )}/>
+        <>
+        {data && 
+            <Route { ...rest } 
+            render={(props) => (
+                data.isLoggedIn? 
+                    <Component { ...props }/> : 
+                    <Redirect to="/login"/>
+            )}/>}
+        </>
     );
 }
 
-export default PrivateRoute;
+export default ProtectedPage;
