@@ -5,18 +5,23 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "nodemon --inspect index.js"
   },
   "author": "Maria Solano",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.0",
     "apollo-datasource-mongodb": "^0.2.8",
     "apollo-server": "^2.19.0",
     "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
+    "handlebars": "^4.7.6",
     "jsonwebtoken": "^8.5.1",
+    "mjml": "^4.8.0",
     "mongodb": "^3.6.3",
-    "mongoose": "^5.11.8"
+    "mongoose": "^5.11.8",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

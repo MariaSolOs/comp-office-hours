@@ -2,12 +2,28 @@ const { gql } = require('apollo-server');
 
 module.exports = gql`
     type Query {
+        """
+        List of all the instructors in the course.
+        """
         instructors: [Instructor!]!
+
+        """
+        Appointments of the specified instructor on the indicated date.
+        """
         appointments(instId: ID!, date: String!): [Appointment!]
     }
 
     type Mutation {
+        """
+        Given an email, logs in the corresponding user.
+        """
         login(email: String!): User!
+
+        """
+        Books an appointment.
+        *Assumes that the user in the context is the student 
+        making the booking*.
+        """
         bookAppointment(apptId: ID!): Appointment! 
     }
 

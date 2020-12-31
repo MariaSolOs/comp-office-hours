@@ -15,6 +15,9 @@ const GET_APPOINTMENTS = gql`
             _id
             timeslot
             isBooked
+            instructor {
+                name
+            }
         }
     }
 `;

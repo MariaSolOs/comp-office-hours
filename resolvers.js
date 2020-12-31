@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken'),
-      { AuthenticationError } = require('apollo-server');
+      { AuthenticationError } = require('apollo-server'),
+      { sendEmailToStudent } = require('./utils/email');
 
 module.exports = {
     User: {
@@ -11,6 +12,19 @@ module.exports = {
                 return 'Instructor';
             }
             return null;
+        }
+    },
+
+    Appointment: {
+        instructor: (appt, _, { dataSources }) => {
+            return dataSources.instructorAPI.getInstructorById(appt.instructor);
+        },
+        student: (appt, _, { dataSources }) => {
+            if(appt.student) {
+                return dataSources.studentAPI.getStudentById(appt.student);
+            } else {
+                return {};
+            }
         }
     },
 
@@ -39,9 +53,9 @@ module.exports = {
     Mutation: {
         login: async (_, { email }, { dataSources }) => {
             let user;
-            user = await dataSources.studentAPI.getStudent(email);
+            user = await dataSources.studentAPI.getStudentByEmail(email);
             if(!user) {
-                user = await dataSources.instructorAPI.getInstructor(email);
+                user = await dataSources.instructorAPI.getInstructorByEmail(email);
             }
             if(!user) {
                 throw new AuthenticationError('Email does not exist.');
@@ -63,14 +77,21 @@ module.exports = {
         bookAppointment: async (_, { apptId }, { dataSources, user }) => {
             try {
                 await dataSources.appointmentAPI.bookAppointment(apptId, user._id);
-                const appt = await dataSources.appointmentAPI.getAppointment(apptId);
-                const student = await dataSources.studentAPI.getStudent(user.email);
-                return {
-                    ...appt,
-                    student: { ...student }
-                }
-            } catch(error) {
-                return new Error(`Booking failed: ${error}`);
+
+                const appt = await dataSources.appointmentAPI.getAppointmentById(apptId);
+                const instructor = await dataSources.instructorAPI.getInstructorById(appt.instructor);
+                const student = await dataSources.studentAPI.getStudentById(user._id);
+
+                sendEmailToStudent(student.email, 
+                                   instructor.name, 
+                                   appt.date, 
+                                   appt.timeslot, 
+                                   instructor.zoomLink);
+
+                return appt;
+            } catch(err) {
+                console.error(err);
+                return new Error(`Booking failed: ${err}`);
             }
         }
     }
