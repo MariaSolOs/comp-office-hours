@@ -48,6 +48,7 @@ module.exports = gql`
 
     type Student implements User {
         _id: ID!
+        name: String
         email: String!
         mcgillId: String!
         token: String!

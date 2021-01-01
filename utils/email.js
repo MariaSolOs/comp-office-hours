@@ -28,7 +28,36 @@ exports.sendEmailToStudent = (studentEmail, instName, date, timeslot, zoomLink) 
         html: mjml2html(mjml).html
     })
     .then(() => {
-        console.log('Email sent');
+        console.log(`Email sent to ${studentEmail}.`);
+    })
+    .catch((error) => {
+        console.error(error);
+    })
+}
+
+exports.sendEmailToInstructor = (instEmail, studentName, instName, 
+                                 date, timeslot, zoomLink) => {
+    const source = fs.readFileSync(path.resolve(__dirname, 
+                   '../emails/newAppt-Instructor.mjml'), 'utf-8');              
+    const template = compile(source);
+    const mjml = template({
+        studentName,
+        instName,
+        date,
+        timeslot,
+        zoomLink
+    });
+
+    sgMail.send({
+        to: instEmail, 
+        from: process.env.EMAIL_SENDER, 
+        subject: `Hey ${instName}, you have a new booking! ${
+        studentName} wants to attend your office hours on ${
+        date} for your ${timeslot} time slot. Be sure to be there!`,
+        html: mjml2html(mjml).html
+    })
+    .then(() => {
+        console.log(`Email sent to ${instEmail}.`);
     })
     .catch((error) => {
         console.error(error);

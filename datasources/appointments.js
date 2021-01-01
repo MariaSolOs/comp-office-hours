@@ -4,12 +4,8 @@ const { MongoDataSource } = require('apollo-datasource-mongodb'),
 module.exports = class Appointments extends MongoDataSource {
     apptReducer(appt) {
         return {
-            _id: appt._id,
-            instructor: appt.instructor,
-            student: appt.student? appt.student : null,
-            date: appt.date.toISOString().split('T')[0],
-            timeslot: appt.timeslot,
-            isBooked: appt.isBooked
+            ...appt,
+            date: appt.date.toISOString().split('T')[0]
         }
     }
 

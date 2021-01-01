@@ -6,10 +6,16 @@ const StudentSchema = new mongoose.Schema({
         required: true,
         match: /(@mail\.mcgill\.ca|@mcgill.ca)$/
     },
+
     mcgillId: {
         type: String,
         required: true,
         match: /[0-9]{9}/ // TODO: Improve this regex
+    },
+
+    name: {
+        type: String,
+        required: true
     }
 });
 

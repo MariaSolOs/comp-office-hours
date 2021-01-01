@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken'),
       { AuthenticationError } = require('apollo-server'),
-      { sendEmailToStudent } = require('./utils/email');
+      { sendEmailToStudent, sendEmailToInstructor } = require('./utils/email');
 
 module.exports = {
     User: {
@@ -29,13 +29,12 @@ module.exports = {
     },
 
     Query: {
-        instructors: async (_, __, { dataSources, user }) => {
+        instructors: (_, __, { dataSources, user }) => {
             if(!user) {
                 throw new AuthenticationError('Not logged in');
             }
 
-            const insts = await dataSources.instructorAPI.getAllInstructors();
-            return insts;
+            return dataSources.instructorAPI.getAllInstructors();;
         },
 
         appointments: async (_, { instId, date }, { dataSources, user }) => {
@@ -76,17 +75,28 @@ module.exports = {
 
         bookAppointment: async (_, { apptId }, { dataSources, user }) => {
             try {
-                await dataSources.appointmentAPI.bookAppointment(apptId, user._id);
+                //await dataSources.appointmentAPI.bookAppointment(apptId, user._id);
 
                 const appt = await dataSources.appointmentAPI.getAppointmentById(apptId);
                 const instructor = await dataSources.instructorAPI.getInstructorById(appt.instructor);
                 const student = await dataSources.studentAPI.getStudentById(user._id);
+
+                // console.log(appt)
+                // console.log(instructor)
+                // console.log(student)
+                // return;
 
                 sendEmailToStudent(student.email, 
                                    instructor.name, 
                                    appt.date, 
                                    appt.timeslot, 
                                    instructor.zoomLink);
+                sendEmailToInstructor(instructor.email,
+                                      student.name,
+                                      instructor.name,
+                                      appt.date,
+                                      appt.timeslot,
+                                      instructor.zoomLink);
 
                 return appt;
             } catch(err) {

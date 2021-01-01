@@ -110,7 +110,6 @@ const ApptFormPage = () => {
         bookAppt({ variables: { apptId: state.bookingId } });
     }
     
-    // TODO: Add loading spinner
     return (    
         <form className={classes.menu} onSubmit={handleSubmit}>
             {instsLoading || bookingLoading? 

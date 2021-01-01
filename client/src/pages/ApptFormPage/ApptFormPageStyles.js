@@ -3,7 +3,8 @@ const styles = (theme) => ({
         margin: '5vh auto',
         width: '85%',
         minWidth: 300,
-        overflowY: 'scroll'
+        overflowY: 'scroll',
+        position: 'relative'
     },
 
     section: { 
@@ -40,9 +41,13 @@ const styles = (theme) => ({
         backgroundColor: '#15AB89',
         color: '#FFF',
         borderRadius: 15,
-        float: 'right',
+        position: 'fixed',
+        bottom: '5vh',
+        right: '5vw',
 
-        '&:focus': { outline: 'none' }
+        '&:focus': { outline: 'none' },
+
+        [theme.breakpoints.down('xs')]: { position: 'unset' }
     }
 });
 export default styles;
