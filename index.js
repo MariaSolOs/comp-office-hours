@@ -35,7 +35,9 @@ const server = new ApolloServer({
         instructorAPI: new Instructors(mongoClient.db().collection('instructors')),
         appointmentAPI: new Appointments(mongoClient.db().collection('appointments')),
         studentAPI: new Students(mongoClient.db().collection('students'))
-    })
+    }),
+    introspection: true,
+    playground: true
 });
 
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
