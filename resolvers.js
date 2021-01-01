@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken'),
-      { AuthenticationError } = require('apollo-server'),
+      { AuthenticationError } = require('apollo-server-express'),
       { sendEmailToStudent, sendEmailToInstructor } = require('./utils/email');
 
 module.exports = {
@@ -75,16 +75,11 @@ module.exports = {
 
         bookAppointment: async (_, { apptId }, { dataSources, user }) => {
             try {
-                //await dataSources.appointmentAPI.bookAppointment(apptId, user._id);
+                await dataSources.appointmentAPI.bookAppointment(apptId, user._id);
 
                 const appt = await dataSources.appointmentAPI.getAppointmentById(apptId);
                 const instructor = await dataSources.instructorAPI.getInstructorById(appt.instructor);
                 const student = await dataSources.studentAPI.getStudentById(user._id);
-
-                // console.log(appt)
-                // console.log(instructor)
-                // console.log(student)
-                // return;
 
                 sendEmailToStudent(student.email, 
                                    instructor.name, 

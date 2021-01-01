@@ -1,17 +1,8 @@
 require('dotenv').config({ path: './.env' });
 
-// MongoDB 
-const mongoClient = require('./config/mongoDB');
-
 // Database seeding
 // const seedDB = require('./seeds');
 // seedDB();
-
-// Apollo Server
-const { ApolloServer } = require('apollo-server'),
-       typeDefs = require('./schema'),
-       resolvers = require('./resolvers'),
-      { Instructors, Students, Appointments } = require('./datasources');
 
 // User authentication
 const jwt = require('jsonwebtoken');
@@ -22,6 +13,21 @@ const getUser = (token) => {
         return { ...decoded };
     });
 }
+
+// Server setup
+const { ApolloServer } = require('apollo-server-express'),
+       typeDefs = require('./schema'),
+       resolvers = require('./resolvers'),
+       mongoClient = require('./config/mongoDB'),
+      { Instructors, Students, Appointments } = require('./datasources'),
+       express = require('express'),
+       cors = require('cors');
+
+const app = express();
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
 
 const server = new ApolloServer({ 
     typeDefs,
@@ -35,13 +41,12 @@ const server = new ApolloServer({
         instructorAPI: new Instructors(mongoClient.db().collection('instructors')),
         appointmentAPI: new Appointments(mongoClient.db().collection('appointments')),
         studentAPI: new Students(mongoClient.db().collection('students'))
-    }),
-    introspection: true,
-    playground: true
+    })
 });
+server.applyMiddleware({ app });
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-    console.log(`Server ready at ${url}`);
+app.listen({ port: process.env.PORT || 4000 }, () => {
+    console.log(`Server ready at ${server.graphqlPath}`);
 });
 
 // TODO: Add a logging system
