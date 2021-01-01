@@ -24,10 +24,7 @@ const styles = (theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         margin: '20px 0',
-
-        [theme.breakpoints.down('sm')]: {
-            flexDirection: 'column'
-        }
+        flexDirection: 'column'
     },
 
     card: {
@@ -51,6 +48,7 @@ const styles = (theme) => ({
         borderRadius: 15,
         backgroundColor: '#ED1B2F',
         padding: '10px 15px',
+        cursor: 'pointer',
 
         '&:focus': { outline: 'none' }
     }
