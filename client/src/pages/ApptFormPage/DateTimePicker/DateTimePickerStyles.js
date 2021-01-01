@@ -20,7 +20,7 @@ const styles = (theme) => ({
         '& .react-datepicker__header': {
             backgroundColor: '#ECF2F2'
         },
-        '& .react-datepicker__day--selected': {
+        '& .react-datepicker__day--selected, & .react-datepicker__day--keyboard-selected': {
             backgroundColor: 'rgba(11, 135, 125, 0.8)',
             color: '#FFF',
             fontWeight: 'bold'

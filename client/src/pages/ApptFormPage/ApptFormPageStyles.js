@@ -47,7 +47,7 @@ const styles = (theme) => ({
 
         '&:focus': { outline: 'none' },
 
-        [theme.breakpoints.down('xs')]: { position: 'unset' }
+        [theme.breakpoints.down('sm')]: { position: 'unset' }
     }
 });
 export default styles;

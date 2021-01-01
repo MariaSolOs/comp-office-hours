@@ -39,6 +39,20 @@ const styles = (theme) => ({
         fontSize: '1rem',
         fontWeight: 'bold',
         marginLeft: 15
+    },
+
+    redirectButton: {
+        marginTop: 30,
+        fontFamily: 'Montserrat',
+        fontWeight: 'bold',
+        fontSize: '0.9rem',
+        border: 'none',
+        color: '#FFF',
+        borderRadius: 15,
+        backgroundColor: '#ED1B2F',
+        padding: '10px 15px',
+
+        '&:focus': { outline: 'none' }
     }
 });
 export default styles;

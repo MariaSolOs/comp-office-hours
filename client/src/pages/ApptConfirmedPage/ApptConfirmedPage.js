@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { resetCache } from '../../cache';
 
 import InstructorCard from '../../components/InstructorCard/InstructorCard';
 
@@ -12,6 +13,11 @@ const ApptConfirmedPage = () => {
 
     const { state } = useLocation();
     const { instructor, date, timeslot, studentEmail } = state;
+
+    const handleRedirect = () => {
+        resetCache();
+        window.location.replace('https://mycourses2.mcgill.ca/d2l/loginh/');
+    }
 
     return (
         <div className={classes.container}>
@@ -33,6 +39,11 @@ const ApptConfirmedPage = () => {
                     <p>Date: {date}</p>
                     <p>Time (EST time): {timeslot}</p>
                 </div>
+                <button
+                className={classes.redirectButton}
+                onClick={handleRedirect}>
+                    Go back to MyCourses
+                </button>
             </div>
         </div>
     );
