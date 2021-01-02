@@ -45,7 +45,7 @@ const server = new ApolloServer({
         studentAPI: new Students(mongoClient.db().collection('students'))
     })
 });
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, path: '/server' });
 
 app.get('*', (_, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));

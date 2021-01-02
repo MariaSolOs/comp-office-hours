@@ -110,7 +110,7 @@ const ApptFormPage = () => {
         bookAppt({ variables: { apptId: state.bookingId } });
     }
     
-    return (    
+    return ( 
         <form className={classes.menu} onSubmit={handleSubmit}>
             {instsLoading || bookingLoading? 
                 'Loading...' :

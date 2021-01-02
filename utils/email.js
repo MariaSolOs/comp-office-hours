@@ -51,7 +51,8 @@ exports.sendEmailToInstructor = (instEmail, studentName, instName,
     sgMail.send({
         to: instEmail, 
         from: process.env.EMAIL_SENDER, 
-        subject: `Hey ${instName}, you have a new booking! ${
+        subject: `You have an appointment with ${studentName}`,
+        text: `Hey ${instName}, you have a new booking! ${
         studentName} wants to attend your office hours on ${
         date} for your ${timeslot} time slot. Be sure to be there!`,
         html: mjml2html(mjml).html

@@ -10,7 +10,7 @@ const StudentSchema = new mongoose.Schema({
     mcgillId: {
         type: String,
         required: true,
-        match: /[0-9]{9}/ // TODO: Improve this regex
+        match: /[0-9]{9}/ 
     },
 
     name: {
