@@ -95,7 +95,6 @@ module.exports = {
 
                 return appt;
             } catch(err) {
-                console.error(err);
                 return new Error(`Booking failed: ${err}`);
             }
         }
