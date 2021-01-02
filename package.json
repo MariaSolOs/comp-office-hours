@@ -1,8 +1,8 @@
 {
   "name": "office-hours-202",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "COMP202 (McGill) - Office hours by appointment",
+  "main": "index.js", 
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "Maria Solano",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^7.4.0",
     "apollo-datasource-mongodb": "^0.2.8",
