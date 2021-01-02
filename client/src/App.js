@@ -37,6 +37,4 @@ const App = () => {
     );
 }
 
-// TODO: Add proptypes to all components
-
 export default App;

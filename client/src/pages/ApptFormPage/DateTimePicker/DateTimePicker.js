@@ -22,8 +22,7 @@ const GET_APPOINTMENTS = gql`
     }
 `;
 
-// TODO: Set this back to 2 weeks
-const MAX_DATE = new Date().setDate(new Date().getDate() + 28);
+const MAX_DATE = new Date().setDate(new Date().getDate() + 14);
 
 const DateTimePicker = ({ date, onDateChange, selectedInst,
                           timeslot, onTimeslotChange }) => {
