@@ -14,8 +14,8 @@ export const cache = new InMemoryCache({
 
                 isTokenValid: {
                     read() {
-                        const expireTime = localStorage.getItem('expire_time');
-                        return +new Date(expireTime) > new Date();
+                        const expireTime = localStorage.getItem('expire_time') || '';
+                        return +new Date(expireTime) > +new Date();
                     }
                 }
             }
@@ -23,10 +23,10 @@ export const cache = new InMemoryCache({
     }
 });
 
-export const initCache = (token) => {
+export const initCache = (token: string) => {
     const inOneHour = new Date(new Date().setHours(new Date().getHours() + 1));
     localStorage.setItem('token', token);
-    localStorage.setItem('expire_time', inOneHour);
+    localStorage.setItem('expire_time', inOneHour.toString());
     isLoggedInVar(true);
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Instructor, InstructorRole } from '../../models';
 
 import Card from '@material-ui/core/Card';
 
@@ -6,16 +7,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './InstructorCardStyles';
 const useStyles = makeStyles(styles);
 
-const parseRole = (role) => {
+const parseRole = (role: InstructorRole) => {
     let parsed;
     switch(role) {
-        case 'INSTRUCTOR':
+        case InstructorRole.INSTRUCTOR:
             parsed = 'Instructor'
             break;
-        case 'TA':
+        case InstructorRole.TA:
             parsed = 'TA'
             break;
-        case 'TEAM_MENTOR':
+        case InstructorRole.TEAM_MENTOR:
             parsed = 'TEAM mentor'
             break;
         default: parsed = '';
@@ -23,24 +24,32 @@ const parseRole = (role) => {
     return parsed;
 }
 
-const InstructorCard = React.memo(({ inst, isSelected, onSelected }) => {
-    const classes = useStyles({ isSelected });
+type InstructorCardProps = {
+    inst: Instructor;
+    isSelected: boolean;
+    onSelected: () => {};
+}
+
+const InstructorCard = React.memo((props: InstructorCardProps) => {
+    const classes = useStyles({ isSelected: props.isSelected });
 
     return (
         <Card 
         className={classes.cardRoot} 
         variant="elevation"
-        onClick={onSelected}>
+        onClick={props.onSelected}>
             <div className={classes.instDetails}>
                 <h4 className="inst-name">
-                    {inst.name}
+                    {props.inst.name}
                 </h4>
-                <p className="inst-role">{parseRole(inst.role)}</p>
-                <p className="inst-langs">Speaks: {inst.languages.join(', ')}</p>
+                <p className="inst-role">{parseRole(props.inst.role)}</p>
+                <p className="inst-langs">
+                    Speaks: {props.inst.languages.join(', ')}
+                </p>
             </div>
             <img 
-            src={inst.photo} 
-            alt={inst.name}
+            src={props.inst.photo} 
+            alt={props.inst.name}
             className={classes.instPhoto}/>
         </Card>
     );

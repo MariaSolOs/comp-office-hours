@@ -16,7 +16,6 @@ const typeDefs = gql`
     }
 `;
 
-
 const httpLink = createHttpLink({
     uri: process.env.REACT_APP_SERVER_URL
 });

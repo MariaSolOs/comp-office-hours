@@ -1,4 +1,10 @@
-const styles = (theme) => ({
+import { createStyles } from '@material-ui/core/styles';
+
+type StyleProps = {
+    isSelected: boolean;
+}
+
+const styles = () => createStyles({
     cardRoot: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -8,7 +14,7 @@ const styles = (theme) => ({
         minWidth: 260,
         height: '100%',
         cursor: 'pointer',
-        backgroundColor: props => 
+        backgroundColor: (props: StyleProps) => 
                             props.isSelected? '#ECF2F2' : '#FFF'
     },
 

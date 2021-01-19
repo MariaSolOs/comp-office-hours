@@ -11,7 +11,7 @@ const InstructorList = ({ instructors, selectedInst, onInstChange,
                           useAnyInst, onAnyInst }) => {
     const classes = useStyles();
 
-    const handleSelection = useCallback((inst) => (e) => {
+    const handleSelection = useCallback((inst) => () => {
         onInstChange(inst);
     }, [onInstChange]);
 
