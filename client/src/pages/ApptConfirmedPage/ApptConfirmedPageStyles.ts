@@ -1,4 +1,6 @@
-const styles = (theme) => ({
+import { createStyles } from '@material-ui/core/styles';
+
+const styles = () => createStyles({
     container: {
         width: '60%',
         minWidth: 300,

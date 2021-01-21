@@ -1,4 +1,5 @@
-enum DayOfWeek { Monday, Tuesday, Wednesday, Thursday, Friday }
+type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 
+                 'Friday' | 'Saturday' | 'Sunday';
 
 export enum InstructorRole { INSTRUCTOR, TA, TEAM_MENTOR }
 
@@ -8,5 +9,12 @@ export type Instructor = {
     photo: string;
     role: InstructorRole;
     languages: string[];
-    availDays: Map<DayOfWeek, string>;
+    availDays: DayOfWeek[];
+}
+
+export type ConfirmationInfo = {
+    instructor: Instructor;
+    date: string;
+    timeslot: string; 
+    studentEmail: string;
 }

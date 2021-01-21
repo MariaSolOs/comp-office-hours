@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Instructor } from '../../../models';
 
 import Switch from '@material-ui/core/Switch';
 import InstructorCard from '../../../components/InstructorCard/InstructorCard';
@@ -7,29 +8,37 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './InstructorListStyles';
 const useStyles = makeStyles(styles);
 
-const InstructorList = ({ instructors, selectedInst, onInstChange, 
-                          useAnyInst, onAnyInst }) => {
+type Props = {
+    instructors: Instructor[];
+    selectedInst: Instructor;
+    useAnyInst: boolean;
+    onInstChange: (inst: Instructor) => void;
+    onAnyInst: (e: Event) => void;
+ }
+
+const InstructorList = (props: Props) => {
     const classes = useStyles();
 
     const handleSelection = useCallback((inst) => () => {
-        onInstChange(inst);
-    }, [onInstChange]);
+        props.onInstChange(inst);
+    }, [props.onInstChange]);
 
     const handleSwitch = useCallback((e) => {
-        onAnyInst(e);
-    }, [onAnyInst]);
+        props.onAnyInst(e);
+    }, [props.onAnyInst]);
 
     return (
         <div className={classes.list}>
             <div className={classes.switchBox}>
-                <Switch checked={useAnyInst} onChange={handleSwitch}/>
+                <Switch checked={props.useAnyInst} onChange={handleSwitch}/>
                 <p className="switch-text">Anyone is fine.</p>
             </div>
-            {instructors.map(inst => (
+            {props.instructors.map(inst => (
                 <div key={inst._id} className={classes.cardWrapper}>
                     <InstructorCard 
                     inst={inst}
-                    isSelected={selectedInst && (inst._id === selectedInst._id)}
+                    isSelected={props.selectedInst && 
+                               (inst._id === props.selectedInst._id)}
                     onSelected={handleSelection(inst)}/>
                 </div>
             ))}

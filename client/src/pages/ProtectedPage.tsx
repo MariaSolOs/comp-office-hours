@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { gql, useLazyQuery } from '@apollo/client';
 
@@ -8,7 +8,7 @@ const IS_LOGGED_IN = gql`
     }
 `;
 
-const ProtectedPage = ({ Component, ...rest }) => {
+const ProtectedPage = ({ Component, ...rest }: any) => {
     const [checkLogIn, { data }] = useLazyQuery(IS_LOGGED_IN);
 
     useEffect(() => {

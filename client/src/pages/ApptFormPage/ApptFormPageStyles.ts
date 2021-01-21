@@ -1,4 +1,6 @@
-const styles = (theme) => ({
+import { createStyles, Theme } from '@material-ui/core/styles';
+
+const styles = (theme: Theme) => createStyles({
     menu: {
         margin: '5vh auto',
         width: '85%',

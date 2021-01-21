@@ -6,15 +6,23 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './SlotPickerStyles';
 const useStyles = makeStyles(styles);
 
-const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
+type Props = {
+    slots: { _id: string; timeslot: string; isBooked: boolean }[];
+    selectedTimeslot: string;
+    onSelection: (timeslot: string, bookingId: string) => void;
+}
+
+const SlotPicker = (props: Props) => {
     const classes = useStyles();
 
-    const handleClick = (slot, id, isBooked) => (e) => {
+    const handleClick = (timeslot: string, 
+                         id: string, 
+                         isBooked: boolean) => (e: React.MouseEvent) => {
         e.preventDefault();
-        if(!isBooked) { onSelection(slot, id); }
+        if(!isBooked) { props.onSelection(timeslot, id); }
     }
 
-    if(slots.length === 0) {
+    if(props.slots.length === 0) {
         return (
             <p className={classes.noSlotsMsg}>
                 No appointments available.
@@ -24,7 +32,7 @@ const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
 
     return (
         <div className={classes.timeslots}>
-            {slots.map(({ _id, timeslot, isBooked }) => (
+            {props.slots.map(({ _id, timeslot, isBooked }) => (
                 <Tooltip 
                 key={_id}
                 title={isBooked? 'Already booked.' : ''}
@@ -33,7 +41,7 @@ const SlotPicker = ({ slots, selectedSlot, onSelection }) => {
                 classes={{ tooltip: classes.tooltip }}>
                     <button 
                     className={`${classes.timeslot} 
-                                ${(selectedSlot === timeslot) && 'selected'}
+                                ${(props.selectedTimeslot === timeslot) && 'selected'}
                                 ${isBooked && 'booked'}`}
                     onClick={handleClick(timeslot, _id, isBooked)}>
                         {timeslot}

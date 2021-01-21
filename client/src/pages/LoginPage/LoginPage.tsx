@@ -27,8 +27,8 @@ const LoginPage = () => {
 
     const [email, setEmail] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.currentTarget.value);
     }
 
     const [login, { loading, error }] = useMutation(LOGIN_USER, {
@@ -38,7 +38,7 @@ const LoginPage = () => {
         }
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if(!EMAIL_REGEX.test(email)) {

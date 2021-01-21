@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { resetCache } from '../../cache';
+import { ConfirmationInfo } from '../../models';
 
 import InstructorCard from '../../components/InstructorCard/InstructorCard';
 import Footer from '../../components/Footer/Footer';
@@ -12,7 +13,7 @@ const useStyles = makeStyles(styles);
 const ApptConfirmedPage = () => {
     const classes = useStyles();
 
-    const { state } = useLocation();
+    const { state } = useLocation<ConfirmationInfo>();
     const { instructor, date, timeslot, studentEmail } = state;
 
     const handleRedirect = () => {
@@ -34,8 +35,7 @@ const ApptConfirmedPage = () => {
                     <div className={classes.card}>
                         <InstructorCard
                         inst={instructor}
-                        isSelected={false}
-                        onSelected={() => {}}/>
+                        isSelected={false}/>
                     </div>
                     <div className={classes.details}>
                         <p>Date: {date}</p>

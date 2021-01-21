@@ -1,4 +1,6 @@
-const styles = (theme) => ({
+import { createStyles } from '@material-ui/core/styles';
+
+const styles = () => createStyles({
     noSlotsMsg: {
         marginLeft: 20,
         fontWeight: 'bold',

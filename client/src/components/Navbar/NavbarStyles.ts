@@ -1,4 +1,6 @@
-const styles = (theme) => ({
+import { createStyles, Theme } from '@material-ui/core/styles';
+
+const styles = (theme: Theme) => createStyles({
     bar: {
         width: '100vw',
         height: '8.5vh',

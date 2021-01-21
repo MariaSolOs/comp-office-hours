@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
+import { Instructor } from '../../../models';
 
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -24,29 +25,36 @@ const GET_APPOINTMENTS = gql`
 
 const MAX_DATE = new Date().setDate(new Date().getDate() + 14);
 
-const DateTimePicker = ({ date, onDateChange, selectedInst,
-                          timeslot, onTimeslotChange }) => {
+type Props = {
+    date: string;
+    onDateChange: (date: Date) => void;
+    selectedInst: Instructor;
+    timeslot: string; 
+    onTimeslotChange: (timeslot: string, bookingId: string) => void;  
+}
+
+const DateTimePicker = (props: Props) => {
     const classes = useStyles();
 
     const [getAppts, { loading, error, data }] = useLazyQuery(GET_APPOINTMENTS);
 
-    const handleDateChange = (date) => {
+    const handleDateChange = (date: Date) => {
         getAppts({
             variables: { 
-                instId: selectedInst._id, 
+                instId: props.selectedInst._id, 
                 date: `${date.getFullYear()}-${
                         ('' + (date.getMonth() + 1)).padStart(2, '0')
                         }-${('' + date.getDate()).padStart(2, '0')}`
             }
         });
-        onDateChange(date);
+        props.onDateChange(date);
     }
 
-    const getAvailDates = useCallback((date) => {
+    const getAvailDates = useCallback((date: Date) => {
         const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
-                          'Thursday', 'Friday', 'Saturday'];
-        return selectedInst.availDays.includes(weekdays[date.getDay()]);
-    }, [selectedInst]);
+                          'Thursday', 'Friday', 'Saturday'] as const;
+        return props.selectedInst.availDays.includes(weekdays[date.getDay()]);
+    }, [props.selectedInst]);
 
     return (
         <>
@@ -57,17 +65,17 @@ const DateTimePicker = ({ date, onDateChange, selectedInst,
                 <div className={classes.container}>
                     <ReactDatePicker 
                     minDate={new Date()}
-                    maxDate={MAX_DATE}
+                    maxDate={new Date(MAX_DATE)}
                     inline
-                    selected={date}
+                    selected={new Date(props.date)}
                     onChange={handleDateChange}
                     filterDate={getAvailDates}
                     calendarClassName={classes.calendar}/>
                     {data && 
                         <SlotPicker 
                         slots={data.appointments}
-                        selectedSlot={timeslot}
-                        onSelection={onTimeslotChange}/>}
+                        selectedTimeslot={props.timeslot}
+                        onSelection={props.onTimeslotChange}/>}
                 </div>}
         </>
     );

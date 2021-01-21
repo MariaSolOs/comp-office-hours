@@ -24,13 +24,13 @@ const parseRole = (role: InstructorRole) => {
     return parsed;
 }
 
-type InstructorCardProps = {
+type Props = {
     inst: Instructor;
     isSelected: boolean;
-    onSelected: () => {};
+    onSelected?: () => void;
 }
 
-const InstructorCard = React.memo((props: InstructorCardProps) => {
+const InstructorCard = React.memo((props: Props) => {
     const classes = useStyles({ isSelected: props.isSelected });
 
     return (

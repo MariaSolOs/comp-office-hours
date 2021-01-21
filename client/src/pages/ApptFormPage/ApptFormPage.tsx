@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { actionTypes, useAppointmentReducer } from './store';
 import { useHistory } from 'react-router-dom';
+import { Instructor } from '../../models';
 
 import InstructorList from './InstructorList/InstructorList';
 import DateTimePicker from './DateTimePicker/DateTimePicker';
@@ -42,7 +43,7 @@ const ApptFormPage = () => {
     
     const { loading: instsLoading, 
             data: instsData, 
-            error: instsError } = useQuery(GET_INSTRUCTORS);
+            error: instsError } = useQuery<{ instructors: Instructor[]; }>(GET_INSTRUCTORS);
     const [bookAppt,
           { loading: bookingLoading,
             error: bookingError }] = useMutation(BOOK_APPT, { 
@@ -73,7 +74,7 @@ const ApptFormPage = () => {
         dispatch({
             type: actionTypes.ANY_INST_CHANGE,
             useAnyInst: e.target.checked,
-            defaultInst: instsData.instructors[0]
+            defaultInst: instsData!.instructors[0]
         });
     }, [dispatch, instsData]);
 
@@ -94,7 +95,7 @@ const ApptFormPage = () => {
 
     const [errorMsg, setErrorMsg] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         if(state.inst === null && !state.useAnyInst) {
@@ -120,7 +121,7 @@ const ApptFormPage = () => {
                 <div className={classes.section}>
                     <h2>Who would you like to see?</h2>
                     <InstructorList
-                    instructors={instsData.instructors}
+                    instructors={instsData!.instructors}
                     selectedInst={state.inst}
                     onInstChange={handleInstChange}
                     useAnyInst={state.useAnyInst}
