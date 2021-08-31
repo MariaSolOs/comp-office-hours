@@ -1,9 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import { resetCache } from '../../cache';
-import { ConfirmationInfo } from '../../models';
 
-import InstructorCard from '../../components/InstructorCard/InstructorCard';
-import Footer from '../../components/Footer/Footer';
+import { resetCache } from 'apollo-cache';
+import { ConfirmationInfo } from 'models';
+
+import InstructorCard from 'components/InstructorCard/InstructorCard';
+import Footer from 'components/Footer/Footer';
 
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './ApptConfirmedPageStyles';
@@ -13,7 +14,7 @@ const ApptConfirmedPage = () => {
     const classes = useStyles();
 
     const { state } = useLocation<ConfirmationInfo>();
-    const { instructor, date, timeslot, studentEmail } = state;
+    const { instructor, date, timeslot } = state;
 
     const handleRedirect = () => {
         resetCache();
@@ -27,14 +28,14 @@ const ApptConfirmedPage = () => {
                 <div className={classes.zoomInfo}>
                     <img
                     alt="Zoom icon"
-                    src={`https://res.cloudinary.com/dxod7etqu/image/upload/c_scale,w_100/v1609199578/COMP202-OHBA/zoom-icon.png`}/>
-                    <p>Check {studentEmail} for the Zoom link.</p>
+                    src="https://res.cloudinary.com/dxod7etqu/image/upload/c_scale,w_100/v1609199578/COMP202-OHBA/zoom-icon.png" />
+                    <p>We emailed you the Zoom link (check your junk folder!)</p>
                 </div>
                 <div className={classes.summary}>
                     <div className={classes.card}>
                         <InstructorCard
                         inst={instructor}
-                        isSelected={false}/>
+                        isSelected={false} />
                     </div>
                     <div className={classes.details}>
                         <p>Date: {date}</p>

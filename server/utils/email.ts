@@ -10,7 +10,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 export const sendEmailToStudent = (
     studentEmail: string, 
     instructorName: string, 
-    date: Date, 
+    date: string, 
     timeslot: string, 
     zoomLink: string
 ) => {
@@ -43,7 +43,7 @@ export const sendEmailToInstructor = (
     instructorEmail: string, 
     studentEmail: string, 
     instructorName: string, 
-    date: Date, 
+    date: string, 
     timeslot: string, 
     zoomLink: string
 ) => {

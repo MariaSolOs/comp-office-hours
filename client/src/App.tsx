@@ -1,39 +1,39 @@
-import React, { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom'; 
-import { gql, useQuery } from '@apollo/client';
-import { resetCache } from './cache';
+import { useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom'; 
+import { useReactiveVar } from '@apollo/client';
 
-import ProtectedPage from './pages/ProtectedPage';
-import Navbar from './components/Navbar/Navbar';
-import LoginPage from './pages/LoginPage/LoginPage';
-import ApptFormPage from './pages/ApptFormPage/ApptFormPage';
-import ApptConfirmedPage from './pages/ApptConfirmedPage/ApptConfirmedPage';
+import { isLoggedInVar, resetCache } from 'apollo-cache';
 
-const CHECK_TOKEN_VALID = gql`
-    query IsTokenValid {
-        isTokenValid @client
-    }
-`;
+import Navbar from 'components/Navbar/Navbar';
+import LoginPage from 'pages/LoginPage/LoginPage';
+import ApptFormPage from 'pages/ApptFormPage/ApptFormPage';
+import ApptConfirmedPage from 'pages/ApptConfirmedPage/ApptConfirmedPage';
+
+import GlobalStyles from 'GlobalStyles';
 
 const App = () => {
-    const { data } = useQuery(CHECK_TOKEN_VALID);
-    const { isTokenValid } = data;
+    const history = useHistory();
+    const isLoggedIn = useReactiveVar(isLoggedInVar);
 
     useEffect(() => {
-        if(!isTokenValid) {
+        if (!isLoggedIn) {
             resetCache();
+            history.replace('/');
         }
-    }, [isTokenValid]);
+    }, [isLoggedIn, history]);
 
     return (
-        <>
+        <GlobalStyles>
             <Navbar/>
             <Switch>
-                <ProtectedPage path="/booking" Component={ApptFormPage}/>
-                <ProtectedPage path="/booking-confirm" Component={ApptConfirmedPage}/>
-                <Route component={LoginPage}/>
+                {isLoggedIn &&
+                    <>
+                        <Route path="/booking-confirm" component={ApptConfirmedPage} />
+                        <Route path="/booking" component={ApptFormPage} />
+                    </>}
+                <Route component={LoginPage} />
             </Switch>
-        </>
+        </GlobalStyles>
     );
 }
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
-import { initCache } from '../../cache';
+import { initCache } from 'apollo-cache';
 
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -10,42 +9,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './LoginPageStyles';
 const useStyles = makeStyles(styles);
 
-const LOGIN_USER = gql`
-    mutation LoginUser($email: String!) {
-        login(email: $email) {
-            token
-        }
-    }
-`;
-
 const EMAIL_REGEX = /(@mail\.mcgill\.ca|@mcgill.ca)$/;
 
 const LoginPage = () => {
+    const history = useHistory();
     const classes = useStyles();
 
-    const history = useHistory();
-
     const [email, setEmail] = useState('');
-    const [errMsg, setErrMsg] = useState('');
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.currentTarget.value);
-    }
+    const [showError, setShowError] = useState(false);
 
-    const [login, { loading, error }] = useMutation(LOGIN_USER, {
-        onCompleted: ({ login }) => {
-            initCache(login.token);
-            history.push('/booking');
-        }
-    });
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if(!EMAIL_REGEX.test(email)) {
-            setErrMsg('Invalid email');
+        if (!EMAIL_REGEX.test(email)) {
+            setShowError(true);
             return;
         }
-        login({ variables: { email } });
+
+        initCache(email);
+        history.push('/booking');
     }
 
     return (
@@ -55,29 +37,24 @@ const LoginPage = () => {
             </h2>
             <h4>Please log in to continue.</h4>
             <Paper className={classes.paper}>
-                {loading? 
-                    'Loading...' : 
-                    error? 
-                        'Something went wrong.' :
-                        <form onSubmit={handleSubmit}>
-                            <label htmlFor="email" className={classes.formLabel}>
-                                McGill email address
-                            </label>
-                            <InputBase
-                            id="email" 
-                            aria-describedby="McGill email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            required
-                            fullWidth
-                            className={classes.input}
-                            error={Boolean(errMsg)}/>
-                            {errMsg && 
-                                <span className={classes.errMsg}>{errMsg}</span>}
-                            <button type="submit" className={classes.submitButton}>
-                                Log in
-                            </button>
-                        </form>}
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="email" className={classes.formLabel}>
+                        McGill email address
+                    </label>
+                    <InputBase
+                    id="email" 
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    required
+                    fullWidth
+                    className={classes.input}
+                    error={showError} />
+                    {showError && 
+                        <span className={classes.errMsg}>Invalid email</span>}
+                    <button type="submit" className={classes.submitButton}>
+                        Log in
+                    </button>
+                </form>
             </Paper>
         </div>
     );

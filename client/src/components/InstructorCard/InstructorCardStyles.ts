@@ -26,15 +26,6 @@ const styles = () => createStyles({
             margin: '8px 0',
             fontWeight: 'bold',
             fontSize: '1rem'
-        },
-        '& .inst-role': {
-            margin: 0,
-            color: '#434343',
-            fontStyle: 'italic',
-            letterSpacing: '-0.05rem'
-        },
-        '& .inst-langs': {
-            fontSize: '0.85rem'
         }
     },
 

@@ -30,6 +30,7 @@ const styles = (theme: Theme) => createStyles({
         maxHeight: 170,
         width: '32%',
         margin: '10px 0',
+        
         [theme.breakpoints.down('sm')]: { width: '48%' },
         [theme.breakpoints.down('xs')]: { width: '100%' }
     }

@@ -1,6 +1,6 @@
 overwrite: true
 schema: './graphql/schema.ts'
-# documents: ['../client/src/graphql-api/*.graphql']
+documents: ['../client/src/graphql-api/*.graphql']
 watch: true
 generates:
   ../client/src/graphql-api/index.ts:

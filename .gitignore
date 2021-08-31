@@ -1,7 +1,7 @@
 node_modules/
 .DS_Store/
 .env
-/seeds.js
+/server/seeds.ts
 
 /client/.pnp
 /client.pnp.js

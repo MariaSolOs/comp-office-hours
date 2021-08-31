@@ -9,8 +9,8 @@ import path from 'path';
 import logger from './utils/logger';
 
 // Database seeding
-// const seedDB = require('./seeds');
-// seedDB();
+// import script from './script';
+// script();
 
 const app = express();
 
@@ -34,7 +34,7 @@ const server = new ApolloServer({
 
 (async () => {
     await server.start();
-    server.applyMiddleware({ app, path: '/server' });
+    server.applyMiddleware({ app });
 })();
 
 app.get('*', (_, res) => {

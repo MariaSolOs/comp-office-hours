@@ -14,6 +14,5 @@ export const instructorMapper = (inst: Instructor | null) => ({
     name: inst?.name || '',
     email: inst?.email || '',
     zoomLink: inst?.zoomLink || '',
-    photo: inst?.photo || '',
-    availDays: inst ? Object.keys(inst.schedule) : []
+    photo: inst?.photo || ''
 });

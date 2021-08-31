@@ -1,4 +1,4 @@
-import React from 'react';
+import type { GetAppointmentsQuery } from 'graphql-api';
 
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -7,7 +7,7 @@ import styles from './SlotPickerStyles';
 const useStyles = makeStyles(styles);
 
 type Props = {
-    slots: { _id: string; timeslot: string; isBooked: boolean }[];
+    slots: GetAppointmentsQuery['appointments'];
     selectedTimeslot: string;
     onSelection: (timeslot: string, bookingId: string) => void;
 }
@@ -15,14 +15,13 @@ type Props = {
 const SlotPicker = (props: Props) => {
     const classes = useStyles();
 
-    const handleClick = (timeslot: string, 
-                         id: string, 
-                         isBooked: boolean) => (e: React.MouseEvent) => {
-        e.preventDefault();
-        if(!isBooked) { props.onSelection(timeslot, id); }
+    const handleClick = (id: string, timeslot: string, isBooked: boolean) => {
+        if (!isBooked) { 
+            props.onSelection(timeslot, id); 
+        }
     }
 
-    if(props.slots.length === 0) {
+    if (!props.slots || props.slots?.length === 0) {
         return (
             <p className={classes.noSlotsMsg}>
                 No appointments available.
@@ -35,7 +34,7 @@ const SlotPicker = (props: Props) => {
             {props.slots.map(({ _id, timeslot, isBooked }) => (
                 <Tooltip 
                 key={_id}
-                title={isBooked? 'Already booked.' : ''}
+                title={isBooked ? 'Already booked.' : ''}
                 disableFocusListener
                 placement="top"
                 classes={{ tooltip: classes.tooltip }}>
@@ -43,7 +42,7 @@ const SlotPicker = (props: Props) => {
                     className={`${classes.timeslot} 
                                 ${(props.selectedTimeslot === timeslot) && 'selected'}
                                 ${isBooked && 'booked'}`}
-                    onClick={handleClick(timeslot, _id, isBooked)}>
+                    onClick={() => handleClick(_id, timeslot, isBooked)}>
                         {timeslot}
                     </button>
                 </Tooltip>

@@ -1,83 +1,58 @@
-import React, { useCallback } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
-import { Instructor } from '../../../models';
-
 import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import SlotPicker from '../../../components/SlotPicker/SlotPicker';
+import SlotPicker from 'components/SlotPicker/SlotPicker';
 
+import { getDateString } from 'utils/date';
+import type { AppointmentOptions } from 'models';
+
+import 'react-datepicker/dist/react-datepicker.css';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './DateTimePickerStyles';
 const useStyles = makeStyles(styles);
 
-const GET_APPOINTMENTS = gql`
-    query getAppointments($instId: ID!, $date: String!){
-        appointments(instId: $instId, date: $date) {
-            _id
-            timeslot
-            isBooked
-            instructor {
-                name
-            }
-        }
-    }
-`;
-
+// Can make appointments up to 2 weeks in advance
 const MAX_DATE = new Date().setDate(new Date().getDate() + 14);
 
 type Props = {
-    date: string;
-    onDateChange: (date: Date) => void;
-    selectedInst: Instructor;
+    date: Date;
+    options: AppointmentOptions;
     timeslot: string; 
+    onDateChange: (date: Date) => void;
     onTimeslotChange: (timeslot: string, bookingId: string) => void;  
 }
 
 const DateTimePicker = (props: Props) => {
     const classes = useStyles();
 
-    const [getAppts, { loading, error, data }] = useLazyQuery(GET_APPOINTMENTS);
-
-    const handleDateChange = (date: Date) => {
-        getAppts({
-            variables: { 
-                instId: props.selectedInst._id, 
-                date: `${date.getFullYear()}-${
-                        ('' + (date.getMonth() + 1)).padStart(2, '0')
-                        }-${('' + date.getDate()).padStart(2, '0')}`
-            }
-        });
-        props.onDateChange(date);
+    const getAvailableDates = (date: Date) => {
+        if (props.options) {
+            return props.options.map(({ date }) => 
+                date
+            ).includes(getDateString(date));
+        } else {
+            return false;
+        }
     }
 
-    const getAvailDates = useCallback((date: Date) => {
-        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 
-                          'Thursday', 'Friday', 'Saturday'] as const;
-        return props.selectedInst.availDays.includes(weekdays[date.getDay()]);
-    }, [props.selectedInst]);
+    const slots = props.options?.filter(({ date }) =>
+        date === getDateString(props.date)
+    );
 
     return (
-        <>
-        {loading? 
-            'Loading...' : 
-            error?
-                <p>Loading available dates...</p> :
-                <div className={classes.container}>
-                    <ReactDatePicker 
-                    minDate={new Date()}
-                    maxDate={new Date(MAX_DATE)}
-                    inline
-                    selected={new Date(props.date)}
-                    onChange={handleDateChange}
-                    filterDate={getAvailDates}
-                    calendarClassName={classes.calendar}/>
-                    {data && 
-                        <SlotPicker 
-                        slots={data.appointments}
-                        selectedTimeslot={props.timeslot}
-                        onSelection={props.onTimeslotChange}/>}
-                </div>}
-        </>
+        <div className={classes.container}>
+            <ReactDatePicker 
+            minDate={new Date()}
+            maxDate={new Date(MAX_DATE)}
+            inline
+            selected={new Date(props.date)}
+            onChange={props.onDateChange}
+            filterDate={getAvailableDates}
+            calendarClassName={classes.calendar}/>
+            {slots && 
+                <SlotPicker 
+                slots={slots || []}
+                selectedTimeslot={props.timeslot}
+                onSelection={props.onTimeslotChange}/>}
+        </div>
     );
 }
 

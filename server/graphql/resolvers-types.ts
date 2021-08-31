@@ -29,8 +29,7 @@ export type Instructor = {
   name: Scalars['String'];
   email: Scalars['String'];
   zoomLink: Scalars['String'];
-  photo?: Maybe<Scalars['String']>;
-  availDays?: Maybe<Array<Scalars['String']>>;
+  photo: Scalars['String'];
 };
 
 export type Mutation = {
@@ -48,14 +47,13 @@ export type Query = {
   __typename?: 'Query';
   /** List of all the instructors in the course. */
   instructors: Array<Instructor>;
-  /** Appointments of the specified instructor on the indicated date. */
+  /** Appointments of the specified instructor */
   appointments?: Maybe<Array<Appointment>>;
 };
 
 
 export type QueryAppointmentsArgs = {
   instId: Scalars['ID'];
-  date: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -176,8 +174,7 @@ export type InstructorResolvers<ContextType = Context, ParentType extends Resolv
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   zoomLink?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  availDays?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  photo?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -187,7 +184,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   instructors?: Resolver<Array<ResolversTypes['Instructor']>, ParentType, ContextType>;
-  appointments?: Resolver<Maybe<Array<ResolversTypes['Appointment']>>, ParentType, ContextType, RequireFields<QueryAppointmentsArgs, 'instId' | 'date'>>;
+  appointments?: Resolver<Maybe<Array<ResolversTypes['Appointment']>>, ParentType, ContextType, RequireFields<QueryAppointmentsArgs, 'instId'>>;
 }>;
 
 export type Resolvers<ContextType = Context> = ResolversObject<{

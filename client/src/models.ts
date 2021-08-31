@@ -1,20 +1,14 @@
-type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 
-                 'Friday' | 'Saturday' | 'Sunday';
+import type { 
+    GetInstructorsQuery,
+    GetAppointmentsQuery 
+} from 'graphql-api';
 
-export enum InstructorRole { INSTRUCTOR, TA, TEAM_MENTOR }
+export type Instructor = GetInstructorsQuery['instructors'][number];
 
-export type Instructor = {
-    _id: string;
-    name: string;
-    photo: string;
-    role: InstructorRole;
-    languages: string[];
-    availDays: DayOfWeek[];
-}
+export type AppointmentOptions = GetAppointmentsQuery['appointments'];
 
 export type ConfirmationInfo = {
     instructor: Instructor;
     date: string;
     timeslot: string; 
-    studentEmail: string;
 }

@@ -1,0 +1,7 @@
+query getInstructors {
+    instructors {
+        _id
+        name
+        photo
+    }
+}

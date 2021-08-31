@@ -22,7 +22,8 @@
     "handlebars": "^4.7.6",
     "mjml": "^4.8.0",
     "mongoose": "^5.11.8",
-    "mongoose-lean-defaults": "^2.0.1"
+    "mongoose-lean-defaults": "^2.0.1",
+    "typescript": "^4.4.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.7",

@@ -7,7 +7,7 @@ import type { Instructor } from './instructor';
 export interface Appointment {
     _id: Types.ObjectId;
     instructor: Types.ObjectId | Instructor;
-    date: Date;
+    date: string;
     timeslot: string;
     isBooked: boolean;
 }
@@ -20,14 +20,13 @@ const appointmentSchemaFields: Record<keyof Omit<Appointment, '_id'>, SchemaDefi
     },
     
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     
     timeslot: {
         type: String,
-        required: true,
-        match: /\b(0[0-9]|1[0-9]|2[0-3])(:00|:20|:40)-(0[0-9]|1[0-9]|2[0-3])(:00|:20|:40)/
+        required: true
     },
     
     isBooked: {

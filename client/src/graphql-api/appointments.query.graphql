@@ -1,0 +1,8 @@
+query getAppointments($instId: ID!) {
+    appointments(instId: $instId) {
+        _id
+        date
+        timeslot
+        isBooked
+    }
+}

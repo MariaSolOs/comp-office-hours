@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 import { ApolloError } from 'apollo-server-express';
 
 import Instructor from '../mongodb-models/instructor';
-import Appointment from 'mongodb-models/appointment';
+import Appointment from '../mongodb-models/appointment';
 import { instructorMapper, appointmentMapper } from '../utils/data-mappers';
 import { sendEmailToStudent, sendEmailToInstructor } from '../utils/email';
 import { LEAN_DEFAULTS } from '../server-types';
@@ -19,12 +19,12 @@ export const resolvers: Resolvers = {
             return instructors.map(instructorMapper);
         },
 
-        appointments: async (_, { instId, date }) => {
-            const appts = await Appointment.find({}).lean(LEAN_DEFAULTS);
-            return appts.filter(appt => 
-                date === appt.date.toString() && 
-                Types.ObjectId(instId) === (appt.instructor as Types.ObjectId)
-            ).map(appointmentMapper);
+        appointments: async (_, { instId }) => {
+            const appts = await Appointment.find({
+                instructor: Types.ObjectId(instId)
+            }).lean(LEAN_DEFAULTS);
+
+            return appts.map(appointmentMapper);
         }
     },
 

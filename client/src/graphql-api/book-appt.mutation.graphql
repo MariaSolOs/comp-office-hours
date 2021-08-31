@@ -1,0 +1,7 @@
+mutation bookAppointment($apptId: ID!) {
+    bookAppointment(apptId: $apptId) {
+        _id
+        date
+        timeslot
+    }
+}
