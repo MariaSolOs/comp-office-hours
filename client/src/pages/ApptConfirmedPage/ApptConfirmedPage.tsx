@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { resetCache } from '../../cache';
 import { ConfirmationInfo } from '../../models';
@@ -28,7 +27,7 @@ const ApptConfirmedPage = () => {
                 <div className={classes.zoomInfo}>
                     <img
                     alt="Zoom icon"
-                    src={`https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_100/v1609199578/COMP202-OHBA/zoom-icon.png`}/>
+                    src={`https://res.cloudinary.com/dxod7etqu/image/upload/c_scale,w_100/v1609199578/COMP202-OHBA/zoom-icon.png`}/>
                     <p>Check {studentEmail} for the Zoom link.</p>
                 </div>
                 <div className={classes.summary}>

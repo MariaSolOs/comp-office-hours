@@ -1,32 +1,42 @@
 {
-  "name": "office-hours-202",
+  "name": "comp-office-hours",
   "version": "1.0.0",
-  "description": "COMP202 (McGill) - Office hours by appointment",
-  "main": "index.js", 
+  "main": "build/index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "nodemon --inspect index.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+    "start": "node build/index.js",
+    "dev": "cd server && tsc-watch --onSuccess \"npm start\"",
+    "copy-files": "copyfiles -u 1 \"server/email-templates/**/*\" \"build\"",
+    "heroku-postbuild": "cd server && tsc && cd .. && npm run copy-files && rm -rf server && npm run build:client",
+    "build:client": "cd client && npm install --only=dev && npm install && npm run build",
+    "generate": "cd server && graphql-codegen --config codegen.yml"
   },
-  "author": "Maria Solano",
+  "author": "Maria J. Solano",
   "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^7.4.0",
-    "apollo-datasource-mongodb": "^0.2.8",
     "apollo-server-express": "^2.19.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.4.0",
     "handlebars": "^4.7.6",
-    "jsonwebtoken": "^8.5.1",
     "mjml": "^4.8.0",
-    "mongodb": "^3.6.3",
     "mongoose": "^5.11.8",
-    "path": "^0.12.7"
+    "mongoose-lean-defaults": "^2.0.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "@graphql-codegen/cli": "^1.21.7",
+    "@graphql-codegen/introspection": "^1.18.2",
+    "@graphql-codegen/typescript": "^1.23.0",
+    "@graphql-codegen/typescript-operations": "^1.18.4",
+    "@graphql-codegen/typescript-react-apollo": "^2.3.1",
+    "@graphql-codegen/typescript-resolvers": "^1.20.0",
+    "@types/mjml": "^4.7.0",
+    "@types/node": "^16.3.3",
+    "copyfiles": "^2.4.1",
+    "tsc-watch": "^4.4.0"
+  },
+  "engines": {
+    "node": "14.17.3"
   }
 }

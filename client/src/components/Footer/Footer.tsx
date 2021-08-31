@@ -12,7 +12,7 @@ const Footer = () => {
             <p className={classes.message}>
                 Encountered technical issues? Please 
                 <a 
-                href={`mailto:${process.env.REACT_APP_ASSISTANCE_EMAIL}`}
+                href="mailto:maria.solano@mail.mcgill.ca" 
                 className="email-link">
                     let us know
                 </a>.
