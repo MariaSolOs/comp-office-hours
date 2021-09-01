@@ -1,6 +1,7 @@
 import { createStyles } from '@material-ui/core/styles';
+import type { Theme } from '@material-ui/core/styles';
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
     footer: {
         position: 'fixed',
         bottom: 0,
@@ -13,12 +14,12 @@ const styles = () => createStyles({
         textAlign: 'right',
         color: 'rgba(143, 181, 153, 1)',
         fontSize: '0.85rem',
-        fontWeight: 'bold',
+        fontWeight: theme.typography.fontWeightBold
+    },
 
-        '& .email-link': {
-            color: 'rgba(11, 135, 125, 0.8)',
-            marginLeft: 4
-        }
+    emailLink: {
+        color: 'rgba(11, 135, 125, 0.8)',
+        marginLeft: 4
     }
 });
 export default styles;

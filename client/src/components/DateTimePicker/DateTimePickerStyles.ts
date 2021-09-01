@@ -11,7 +11,7 @@ const styles = (theme: Theme) => createStyles({
     },
 
     calendar: {
-        fontFamily: 'Montserrat',
+        fontFamily: theme.typography.fontFamily,
         border: 'none',
         '& .react-datepicker__month-container': {
             boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), ' +
@@ -25,7 +25,7 @@ const styles = (theme: Theme) => createStyles({
         '& .react-datepicker__day--selected, & .react-datepicker__day--keyboard-selected': {
             backgroundColor: 'rgba(11, 135, 125, 0.8)',
             color: '#FFF',
-            fontWeight: 'bold'
+            fontWeight: theme.typography.fontWeightBold
         },
         '& .react-datepicker__day, & .react-datepicker__day--keyboard-selected, & .react-datepicker__navigation': {
             '&:focus': { outline: 'none' }

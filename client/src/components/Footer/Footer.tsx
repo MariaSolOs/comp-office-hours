@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './FooterStyles';
 const useStyles = makeStyles(styles);
@@ -13,7 +11,7 @@ const Footer = () => {
                 Encountered technical issues? Please 
                 <a 
                 href="mailto:maria.solano@mail.mcgill.ca" 
-                className="email-link">
+                className={classes.emailLink}>
                     let us know
                 </a>.
             </p>
@@ -21,4 +19,4 @@ const Footer = () => {
     );
 }
 
-export default React.memo(Footer);
+export default Footer;

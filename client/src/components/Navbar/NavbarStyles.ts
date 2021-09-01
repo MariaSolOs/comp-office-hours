@@ -15,8 +15,8 @@ const styles = (theme: Theme) => createStyles({
 
     barTitle: {
         margin: 0,
-        fontFamily: 'Montserrat, sans-serif',
-        fontWeight: 'bold',
+        fontFamily: theme.typography.fontFamily,
+        fontWeight: theme.typography.fontWeightBold,
         fontSize: '1.7rem',
 
         [theme.breakpoints.down('xs')]: {

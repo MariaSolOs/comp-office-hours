@@ -1,5 +1,6 @@
 import React from 'react';
-import { Instructor } from '../../models';
+
+import type { Instructor } from 'models';
 
 import Card from '@material-ui/core/Card';
 
@@ -13,6 +14,10 @@ type Props = {
     onSelected?: () => void;
 }
 
+export type StyleProps = {
+    isSelected: boolean;
+}
+
 const InstructorCard = React.memo((props: Props) => {
     const classes = useStyles({ isSelected: props.isSelected });
 
@@ -21,8 +26,8 @@ const InstructorCard = React.memo((props: Props) => {
         className={classes.cardRoot} 
         variant="elevation"
         onClick={props.onSelected}>
-            <div className={classes.instDetails}>
-                <h4 className="inst-name">
+            <div className={classes.instructorDetails}>
+                <h4 className={classes.instructorName}>
                     {props.inst.name}
                 </h4>
             </div>

@@ -1,10 +1,9 @@
 import { createStyles } from '@material-ui/core/styles';
+import type { Theme } from '@material-ui/core/styles';
 
-type StyleProps = {
-    isSelected: boolean;
-}
+import type { StyleProps } from './InstructorCard';
 
-const styles = () => createStyles({
+const styles = (theme: Theme) => createStyles({
     cardRoot: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -15,18 +14,18 @@ const styles = () => createStyles({
         height: '100%',
         cursor: 'pointer',
         backgroundColor: (props: StyleProps) => 
-                            props.isSelected? '#ECF2F2' : '#FFF'
+            props.isSelected? '#ECF2F2' : '#FFF'
     },
 
-    instDetails: {
+    instructorDetails: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
+    },
 
-        '& .inst-name': {
-            margin: '8px 0',
-            fontWeight: 'bold',
-            fontSize: '1rem'
-        }
+    instructorName: {
+        margin: '8px 0',
+        fontWeight: theme.typography.fontWeightBold,
+        fontSize: '1rem'
     },
 
     instPhoto: {
