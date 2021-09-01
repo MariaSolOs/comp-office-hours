@@ -6,7 +6,7 @@
             {{studentEmail}} wants to attend your office hours
         </mj-preview>
 
-        <mj-font name="Montserrat" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" />
+        <mj-font name="Montserrat" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"/>
 
         <mj-attributes>
             <mj-text font-family="Montserrat"/>

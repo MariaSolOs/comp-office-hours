@@ -8,7 +8,7 @@ const Navbar = () => {
     return (
         <div className={classes.bar}>
             <h2 className={classes.barTitle}>
-                COMP202: Foundations of Programming
+                COMP206: Introduction to Software Systems
             </h2>
         </div>
     );

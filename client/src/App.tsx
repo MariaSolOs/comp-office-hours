@@ -5,6 +5,7 @@ import { useReactiveVar } from '@apollo/client';
 import { isLoggedInVar, resetCache } from 'apollo-cache';
 
 import Navbar from 'components/Navbar/Navbar';
+import Footer from 'components/Footer/Footer';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import ApptFormPage from 'pages/ApptFormPage/ApptFormPage';
 import ApptConfirmedPage from 'pages/ApptConfirmedPage/ApptConfirmedPage';
@@ -33,6 +34,7 @@ const App = () => {
                     </>}
                 <Route component={LoginPage} />
             </Switch>
+            <Footer />
         </GlobalStyles>
     );
 }
