@@ -19,9 +19,20 @@ const styles = (theme: Theme) => createStyles({
         fontWeight: theme.typography.fontWeightBold,
         fontSize: '1.7rem',
 
-        [theme.breakpoints.down('xs')]: {
-            fontSize: '1.1rem'
-        }
+        [theme.breakpoints.down('xs')]: { fontSize: '1.1rem' }
+    },
+
+    helpMessage: {
+        textAlign: 'right',
+        color: 'rgb(143, 181, 153)',
+        fontSize: '0.85rem',
+        fontWeight: theme.typography.fontWeightBold,
+        margin: '10px 10px 0 auto'
+    },
+
+    emailLink: {
+        color: 'rgba(11, 135, 125, 0.8)',
+        marginLeft: 4
     }
 });
 

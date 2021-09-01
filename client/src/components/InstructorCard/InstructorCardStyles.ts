@@ -1,7 +1,7 @@
 import { createStyles } from '@material-ui/core/styles';
 import type { Theme } from '@material-ui/core/styles';
 
-import type { StyleProps } from './InstructorCard';
+import type { InstructorCardStyleProps } from './index';
 
 const styles = (theme: Theme) => createStyles({
     cardRoot: {
@@ -13,7 +13,7 @@ const styles = (theme: Theme) => createStyles({
         minWidth: 260,
         height: '100%',
         cursor: 'pointer',
-        backgroundColor: (props: StyleProps) => 
+        backgroundColor: (props: InstructorCardStyleProps) => 
             props.isSelected? '#ECF2F2' : '#FFF'
     },
 

@@ -1,4 +1,4 @@
-import type { GetAppointmentsQuery } from 'graphql-api';
+import type { SlotPickerProps } from './index';
 
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -6,13 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './SlotPickerStyles';
 const useStyles = makeStyles(styles);
 
-type Props = {
-    slots: GetAppointmentsQuery['appointments'];
-    selectedTimeslot: string;
-    onSelection: (timeslot: string, bookingId: string) => void;
-}
-
-const SlotPicker = (props: Props) => {
+const SlotPicker = (props: SlotPickerProps) => {
     const classes = useStyles();
 
     const handleClick = (id: string, timeslot: string, isBooked: boolean) => {

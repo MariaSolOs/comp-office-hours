@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { resetCache } from 'apollo-cache';
 import { ConfirmationInfo } from 'models';
 
-import InstructorCard from 'components/InstructorCard/InstructorCard';
+import InstructorCard from 'components/InstructorCard';
 
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './ApptConfirmedPageStyles';

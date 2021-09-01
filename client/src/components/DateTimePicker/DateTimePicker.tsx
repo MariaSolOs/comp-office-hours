@@ -1,8 +1,8 @@
-import ReactDatePicker from 'react-datepicker';
-import SlotPicker from 'components/SlotPicker/SlotPicker';
-
 import { getDateString } from 'utils/date';
-import type { AppointmentOptions } from 'models';
+import type { DateTimePickerProps } from './index';
+
+import ReactDatePicker from 'react-datepicker';
+import SlotPicker from 'components/SlotPicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,15 +12,7 @@ const useStyles = makeStyles(styles);
 // Can make appointments up to 2 weeks in advance
 const MAX_DATE = new Date().setDate(new Date().getDate() + 14);
 
-type Props = {
-    date: Date;
-    options: AppointmentOptions;
-    timeslot: string; 
-    onDateChange: (date: Date) => void;
-    onTimeslotChange: (timeslot: string, bookingId: string) => void;  
-}
-
-const DateTimePicker = (props: Props) => {
+const DateTimePicker = (props: DateTimePickerProps) => {
     const classes = useStyles();
 
     const getAvailableDates = (date: Date) => {
@@ -46,12 +38,12 @@ const DateTimePicker = (props: Props) => {
             selected={new Date(props.date)}
             onChange={props.onDateChange}
             filterDate={getAvailableDates}
-            calendarClassName={classes.calendar}/>
+            calendarClassName={classes.calendar} />
             {slots && 
                 <SlotPicker 
                 slots={slots || []}
                 selectedTimeslot={props.timeslot}
-                onSelection={props.onTimeslotChange}/>}
+                onSelection={props.onTimeslotChange} />}
         </div>
     );
 }

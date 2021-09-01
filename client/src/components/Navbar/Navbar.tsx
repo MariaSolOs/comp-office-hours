@@ -6,11 +6,21 @@ const Navbar = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.bar}>
-            <h2 className={classes.barTitle}>
-                COMP206: Introduction to Software Systems
-            </h2>
-        </div>
+        <>
+            <nav className={classes.bar}>
+                <h2 className={classes.barTitle}>
+                    COMP206: Introduction to Software Systems
+                </h2>
+            </nav>
+            <div className={classes.helpMessage}>
+                Encountered technical issues? Please 
+                <a 
+                href="mailto:maria.solano@mail.mcgill.ca" 
+                className={classes.emailLink}>
+                    let us know
+                </a>.
+            </div>
+        </>
     );
 }
 

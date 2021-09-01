@@ -1,6 +1,4 @@
-import React from 'react';
-
-import type { Instructor } from 'models';
+import type { InstructorListProps } from './index';
 
 import Switch from '@material-ui/core/Switch';
 import InstructorCard from 'components/InstructorCard/InstructorCard';
@@ -9,15 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './InstructorListStyles';
 const useStyles = makeStyles(styles);
 
-type Props = {
-    instructors: Instructor[];
-    selectedInstructor?: Instructor;
-    useAnyInstructor: boolean;
-    onInstructorChange: (inst: Instructor) => void;
-    onToggleAnyInstructor: React.ChangeEventHandler<HTMLInputElement>;
- }
-
-const InstructorList = (props: Props) => {
+const InstructorList = (props: InstructorListProps) => {
     const classes = useStyles();
 
     return (

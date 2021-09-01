@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Instructor } from 'models';
+import type { InstructorCardProps } from './index';
 
 import Card from '@material-ui/core/Card';
 
@@ -8,17 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import styles from './InstructorCardStyles';
 const useStyles = makeStyles(styles);
 
-type Props = {
-    inst: Instructor;
-    isSelected: boolean;
-    onSelected?: () => void;
-}
-
-export type StyleProps = {
-    isSelected: boolean;
-}
-
-const InstructorCard = React.memo((props: Props) => {
+const InstructorCard = React.memo((props: InstructorCardProps) => {
     const classes = useStyles({ isSelected: props.isSelected });
 
     return (

@@ -9,8 +9,8 @@ import {
 import useAppointmentReducer from 'hooks/useAppointmentReducer';
 import type { Instructor } from 'models';
 
-import InstructorList from 'components/InstructorList/InstructorList';
-import DateTimePicker from 'components/DateTimePicker/DateTimePicker';
+import InstructorList from 'components/InstructorList';
+import DateTimePicker from 'components/DateTimePicker';
 
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './ApptFormPageStyles';
